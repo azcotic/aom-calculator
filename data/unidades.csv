@@ -1,0 +1,36 @@
+civ,unidad,tipo,habilidad,berserk_bonus
+Egipto,Chariot Archer,mortal,,0
+Egipto,Spearman,mortal,,0
+Egipto,Elephant,mortal,Walls and Towers,0
+Egipto,Mummy,mitico,Multiplies with wins,0
+Egipto,Scorpion-Man,mitico,,0
+Egipto,Sphinx,mitico,,0
+Egipto,Phoenix,mitico,Resurrect by Priest,0
+Egipto,Wadjet,mitico,Replace Pharaoh,0
+Egipto,Anubite,mitico,,0
+Egipto,Priest,heroe,Resurrect P and SOO,0
+Egipto,Pharaoh,heroe,Replaced by Wadjet,0
+Egipto,Son of Osiris,heroe,Resurrect by Priest,0
+Nordicos,Jarl,mortal,,0
+Nordicos,Throwing Axeman,mortal,,0
+Nordicos,Huskarl,mortal,+2 Berserk (lose ties),2
+Nordicos,Nidhogg,mitico,2 buildings if survive,0
+Nordicos,Valkyrie,mitico,+2 for each unit eliminated,0
+Nordicos,Frost Giant,mitico,,0
+Nordicos,Troll,mitico,,0
+Nordicos,Dwarf,mitico,Walls and Towers; Gather +2,0
+Nordicos,Classical Hero,heroe,,0
+Nordicos,Heroic Hero,heroe,+2 Berserk (lose ties),2
+Nordicos,Mythic Hero,heroe,-1 enemy = holding area,0
+Griegos,Hoplite,mortal,,0
+Griegos,Hippokon,mortal,,0
+Griegos,Toxotes,mortal,,0
+Griegos,Hydra,mitico,+1 for each unit defeated,0
+Griegos,Cyclops,mitico,Walls and Towers; +3 Throw,0
+Griegos,Minotaur,mitico,2 buildings if survive,0
+Griegos,Manticore,mitico,,0
+Griegos,Centaur,mitico,,0
+Griegos,Medusa,mitico,Wins all ties,0
+Griegos,Classical Hero,heroe,,0
+Griegos,Heroic Hero,heroe,"Defeat hero, army retreat",0
+Griegos,Mythical Hero,heroe,Adds opponent's dice,0

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5d78b"/>
+      <stop offset="55%" stop-color="#c9a24b"/>
+      <stop offset="100%" stop-color="#9e7a2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="48" fill="#14110E"/>
+  <ellipse cx="158.3" cy="215.3" rx="30" ry="13" transform="rotate(43.0 158.3 215.3)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="97.7" cy="215.3" rx="30" ry="13" transform="rotate(-43.0 97.7 215.3)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="178.3" cy="196.4" rx="30" ry="13" transform="rotate(26.8 178.3 196.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="77.7" cy="196.4" rx="30" ry="13" transform="rotate(-26.8 77.7 196.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="190.1" cy="173.9" rx="30" ry="13" transform="rotate(10.6 190.1 173.9)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="65.9" cy="173.9" rx="30" ry="13" transform="rotate(-10.6 65.9 173.9)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="193.4" cy="150.8" rx="30" ry="13" transform="rotate(-5.6 193.4 150.8)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="62.6" cy="150.8" rx="30" ry="13" transform="rotate(5.6 62.6 150.8)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="190.0" cy="132.0" rx="30" ry="13" transform="rotate(-20.0 190.0 132.0)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="66.0" cy="132.0" rx="30" ry="13" transform="rotate(20.0 66.0 132.0)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="193.4" cy="113.2" rx="30" ry="13" transform="rotate(-34.4 193.4 113.2)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="62.6" cy="113.2" rx="30" ry="13" transform="rotate(34.4 62.6 113.2)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="190.9" cy="92.7" rx="30" ry="13" transform="rotate(-48.8 190.9 92.7)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="65.1" cy="92.7" rx="30" ry="13" transform="rotate(48.8 65.1 92.7)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="181.7" cy="72.4" rx="30" ry="13" transform="rotate(-63.2 181.7 72.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="74.3" cy="72.4" rx="30" ry="13" transform="rotate(63.2 74.3 72.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="163.4" cy="52.4" rx="30" ry="13" transform="rotate(-79.4 163.4 52.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <ellipse cx="92.6" cy="52.4" rx="30" ry="13" transform="rotate(79.4 92.6 52.4)" fill="url(#gold)" stroke="#5b4300" stroke-width="2"/>
+  <circle cx="128" cy="138" r="6" fill="#f5d78b"/>
+  <path d="M 124 140 Q 128 158 132 140" stroke="#c9a24b" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

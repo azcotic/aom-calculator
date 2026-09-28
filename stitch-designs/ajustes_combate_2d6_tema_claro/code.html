@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Domine:wght@600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;family=Noto+Serif:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;min-height:100vh;margin:0;padding:0;background-color:#F6EFE2;touch-action:manipulation;-webkit-user-select:none;user-select:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "parchment": "#F6EFE2",
+          "sheet-bg": "#FAF5EB",
+          "header-bg": "#F2E9DA",
+          "border-parchment": "#D5C8B2",
+          "divider-parchment": "#DECFA7",
+          "obsidian": "#2A2218",
+          "brown-text": "#5E5042",
+          "mythic-gold": "#B8860B",
+          "gold-btn": "#C59A27",
+          "parchment-control": "#E8DEC8",
+          "parchment-subtle": "#EFE6D5",
+          "switch-off": "#D9CDBC"
+        },
+        borderRadius: {
+          DEFAULT: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.75rem",
+          full: "9999px"
+        },
+        spacing: {
+          "space-sm": "0.5rem",
+          "margin": "1rem",
+          "gutter": "0.75rem",
+          "space-md": "0.75rem",
+          "space-xl": "1.5rem",
+          "space-xs": "0.25rem",
+          "space-lg": "1rem"
+        },
+        fontFamily: {
+          "headline-sm": ["Noto Serif", "Domine", "serif"],
+          "display-titan": ["Noto Serif", "serif"],
+          "body-lg": ["Inter", "Work Sans", "sans-serif"],
+          "label-lg": ["Inter", "Space Grotesk", "sans-serif"],
+          "headline-md": ["Noto Serif", "Domine", "serif"],
+          "body-md": ["Inter", "Work Sans", "sans-serif"],
+          "numeral-counter": ["Noto Serif", "serif"],
+          "label-md": ["Inter", "Space Grotesk", "sans-serif"],
+          "display-titan-mobile": ["Noto Serif", "serif"],
+          "headline-lg": ["Noto Serif", "Domine", "serif"]
+        },
+        fontSize: {
+          "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "0.02em", fontWeight: "600" }],
+          "display-titan": ["84px", { lineHeight: "84px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-lg": ["18px", { lineHeight: "24px", fontWeight: "500" }],
+          "label-lg": ["15px", { lineHeight: "18px", letterSpacing: "0.05em", fontWeight: "600" }],
+          "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "0.03em", fontWeight: "600" }],
+          "body-md": ["16px", { lineHeight: "22px", fontWeight: "400" }],
+          "numeral-counter": ["36px", { lineHeight: "40px", fontWeight: "700" }],
+          "label-md": ["14px", { lineHeight: "16px", letterSpacing: "0.04em", fontWeight: "500" }],
+          "display-titan-mobile": ["72px", { lineHeight: "72px", letterSpacing: "-0.01em", fontWeight: "700" }],
+          "headline-lg": ["28px", { lineHeight: "34px", letterSpacing: "0.04em", fontWeight: "600" }]
+        }
+      }
+    }
+  };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-parchment text-obsidian antialiased min-h-screen w-full flex flex-col selection:bg-mythic-gold selection:text-white"><main class="flex-1 flex flex-col w-full min-h-screen bg-parchment relative"><div class="flex flex-col w-full relative overflow-hidden select-none">
+<!-- Dimmed and Faintly Blurred Tabletop Battlefield Layer (Context Backdrop in Parchment) -->
+<div aria-hidden="true" class="w-full flex flex-col opacity-30 filter blur-[2px] pointer-events-none pb-12">
+<!-- Mirrored Opponent 1 (North) -->
+<div class="w-full flex flex-col items-center justify-between p-margin rotate-180 bg-[#ECE1CF] rounded-xl border border-border-parchment">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-space-sm text-[#006096]">
+<span class="material-symbols-outlined text-headline-sm">shield</span>
+<span class="font-headline-sm text-headline-sm tracking-wider">EGIPCIOS</span>
+</div>
+<span class="font-display-titan-mobile text-display-titan-mobile text-[#006096]">14</span>
+</div>
+<div class="flex gap-gutter mt-space-md w-full justify-center">
+<div class="w-14 h-14 rounded-lg bg-[#E0D2BC] flex items-center justify-center text-[#006096]">
+<span class="material-symbols-outlined">casino</span>
+</div>
+<div class="w-14 h-14 rounded-lg bg-[#E0D2BC] flex items-center justify-center text-[#006096]">
+<span class="material-symbols-outlined">swords</span>
+</div>
+</div>
+</div>
+<!-- Battlefield Trench Divider -->
+<div class="w-full my-gutter py-space-md bg-[#E5D7BF] flex items-center justify-center">
+<span class="font-headline-sm text-headline-sm text-mythic-gold tracking-widest uppercase">Enfrentamiento Divino</span>
+</div>
+<!-- Opponent 2 (South) -->
+<div class="w-full flex flex-col items-center justify-between p-margin bg-[#ECE1CF] rounded-xl border border-border-parchment">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-space-sm text-[#1b6d24]">
+<span class="material-symbols-outlined text-headline-sm">military_tech</span>
+<span class="font-headline-sm text-headline-sm tracking-wider">NÓRDICOS</span>
+</div>
+<span class="font-display-titan-mobile text-display-titan-mobile text-[#1b6d24]">18</span>
+</div>
+<div class="flex gap-gutter mt-space-md w-full justify-center">
+<div class="w-14 h-14 rounded-lg bg-[#E0D2BC] flex items-center justify-center text-[#1b6d24]">
+<span class="material-symbols-outlined">casino</span>
+</div>
+<div class="w-14 h-14 rounded-lg bg-[#E0D2BC] flex items-center justify-center text-[#1b6d24]">
+<span class="material-symbols-outlined">token</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Dimmed Backdrop Veil: Warm tinted translucent parchment overlay -->
+<div class="absolute inset-0 bg-[#2A2218]/45 backdrop-blur-sm z-10 transition-opacity duration-300"></div>
+<!-- Bottom Sheet Modal Content Shell -->
+<div class="relative z-20 flex flex-col w-full bg-sheet-bg border-t border-border-parchment rounded-t-[24px] shadow-2xl overflow-hidden mt-space-xl pb-safe">
+<!-- Tactile Drag Pill Header -->
+<div class="w-full flex flex-col items-center pt-space-md pb-space-xs cursor-grab active:cursor-grabbing bg-header-bg">
+<div class="w-12 h-1.5 rounded-full bg-border-parchment"></div>
+</div>
+<!-- Codex Header Bar -->
+<div class="flex items-center justify-between px-margin py-space-sm bg-header-bg border-b border-border-parchment/60">
+<div class="flex items-center gap-space-sm text-mythic-gold">
+<div class="w-9 h-9 rounded-lg bg-parchment border border-border-parchment flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-headline-sm text-mythic-gold" style="font-variation-settings: 'FILL' 1;">tune</span>
+</div>
+<div>
+<span class="font-headline-md text-headline-md text-obsidian tracking-wider block">AJUSTES</span>
+<span class="font-label-md text-label-md text-brown-text block -mt-1 tracking-normal">Parámetros del Códice</span>
+</div>
+</div>
+<button aria-label="Cerrar ajustes" class="w-10 h-10 rounded-lg bg-parchment border border-border-parchment hover:bg-[#EFE4D2] active:scale-95 text-brown-text hover:text-obsidian flex items-center justify-center transition-all duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-headline-sm">close</span>
+</button>
+</div>
+<!-- Settings Content Stream -->
+<div class="flex flex-col px-margin py-space-md space-y-gutter bg-sheet-bg">
+<!-- SECTION 1: Reglas de Mesa -->
+<div class="flex flex-col bg-parchment border border-border-parchment rounded-xl p-space-sm space-y-space-md shadow-sm">
+<!-- Setting 1: Empate Resolution (Segmented Control) -->
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-lg text-mythic-gold">balance</span>
+<span class="font-headline-sm text-headline-sm text-obsidian">Resolución de Empate</span>
+</div>
+<span class="font-label-md text-label-md text-brown-text uppercase tracking-wider text-[11px] font-semibold">Regla AoM</span>
+</div>
+<!-- Segmented Options -->
+<div class="grid grid-cols-2 p-1 bg-parchment-control rounded-lg gap-1 min-h-[56px] items-center border border-border-parchment/70">
+<button class="h-12 rounded-lg bg-sheet-bg text-mythic-gold border border-border-parchment/60 font-semibold flex items-center justify-center gap-space-xs transition-all duration-200 shadow-sm" id="tie-replay-btn" type="button">
+<span class="material-symbols-outlined text-label-lg" style="font-variation-settings: 'FILL' 1;">replay</span>
+<span class="font-label-lg text-label-lg tracking-wide">Repetir</span>
+</button>
+<button class="h-12 rounded-lg bg-transparent text-brown-text hover:text-obsidian flex items-center justify-center gap-space-xs transition-all duration-200" id="tie-def-btn" type="button">
+<span class="material-symbols-outlined text-label-lg">shield</span>
+<span class="font-label-lg text-label-lg tracking-wide">Gana defensor</span>
+</button>
+</div>
+</div>
+<div class="h-px w-full bg-divider-parchment"></div>
+<!-- Setting 2: Dobles Medusa & Berserker -->
+<div class="flex items-center justify-between min-h-[56px] px-space-xs py-space-xs">
+<div class="flex flex-col max-w-[75%]">
+<span class="font-label-lg text-label-lg text-obsidian font-semibold">Reglas de dobles: Medusa y Berserker</span>
+<span class="font-body-md text-body-md text-brown-text text-[13px] leading-tight mt-0.5">Triples o dobles aplican daño automático mortal según códice oficial</span>
+</div>
+<!-- Tactile Gold Switch (ON) -->
+<button aria-checked="true" class="relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full bg-mythic-gold p-1 transition-colors duration-200 ease-in-out focus:outline-none shadow-inner" data-toggle="switch" role="switch" type="button">
+<span class="pointer-events-none inline-block h-6 w-6 translate-x-6 transform rounded-full bg-sheet-bg shadow-md transition duration-200 ease-in-out border border-border-parchment/40"></span>
+</button>
+</div>
+<div class="h-px w-full bg-divider-parchment"></div>
+<!-- Setting 6: Vista de un solo lado -->
+<div class="flex items-center justify-between min-h-[56px] px-space-xs py-space-xs">
+<div class="flex flex-col max-w-[75%]">
+<span class="font-label-lg text-label-lg text-obsidian font-semibold">Vista de un solo lado</span>
+<span class="font-body-md text-body-md text-brown-text text-[13px] leading-tight mt-0.5">Desactiva la rotación 180° para jugar en solitario o modo árbitro</span>
+</div>
+<!-- Tactile Dark Switch (OFF) -->
+<button aria-checked="false" class="relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full bg-switch-off p-1 transition-colors duration-200 ease-in-out focus:outline-none shadow-inner" data-toggle="switch" role="switch" type="button">
+<span class="pointer-events-none inline-block h-6 w-6 translate-x-0 transform rounded-full bg-sheet-bg shadow-md transition duration-200 ease-in-out border border-border-parchment/50"></span>
+</button>
+</div>
+</div>
+<!-- SECTION 2: Experiencia Sensorial & Haptics -->
+<div class="flex flex-col bg-parchment border border-border-parchment rounded-xl p-space-sm space-y-space-xs shadow-sm">
+<!-- Setting 3: Vibración -->
+<div class="flex items-center justify-between min-h-[56px] px-space-xs py-space-xs">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-sheet-bg border border-border-parchment flex items-center justify-center text-mythic-gold shadow-sm">
+<span class="material-symbols-outlined text-headline-sm">vibration</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-obsidian font-semibold">Respuesta Háptica</span>
+<span class="font-body-md text-body-md text-brown-text text-[13px] leading-tight">Vibración física al impactar dados</span>
+</div>
+</div>
+<!-- Active Gold Switch -->
+<button aria-checked="true" class="relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full bg-mythic-gold p-1 transition-colors duration-200 ease-in-out focus:outline-none shadow-inner" data-toggle="switch" role="switch" type="button">
+<span class="pointer-events-none inline-block h-6 w-6 translate-x-6 transform rounded-full bg-sheet-bg shadow-md transition duration-200 ease-in-out border border-border-parchment/40"></span>
+</button>
+</div>
+<div class="h-px w-full bg-divider-parchment"></div>
+<!-- Setting 4: Sonido -->
+<div class="flex items-center justify-between min-h-[56px] px-space-xs py-space-xs">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-sheet-bg border border-border-parchment flex items-center justify-center text-brown-text shadow-sm">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-obsidian font-semibold">Sonido de Combate</span>
+<span class="font-body-md text-body-md text-brown-text text-[13px] leading-tight">Chocar de dados de madera tallada</span>
+</div>
+</div>
+<!-- Inactive Switch -->
+<button aria-checked="false" class="relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full bg-switch-off p-1 transition-colors duration-200 ease-in-out focus:outline-none shadow-inner" data-toggle="switch" role="switch" type="button">
+<span class="pointer-events-none inline-block h-6 w-6 translate-x-0 transform rounded-full bg-sheet-bg shadow-md transition duration-200 ease-in-out border border-border-parchment/50"></span>
+</button>
+</div>
+<div class="h-px w-full bg-divider-parchment"></div>
+<!-- Setting 5: Animaciones reducidas -->
+<div class="flex items-center justify-between min-h-[56px] px-space-xs py-space-xs">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-sheet-bg border border-border-parchment flex items-center justify-center text-brown-text shadow-sm">
+<span class="material-symbols-outlined text-headline-sm">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-obsidian font-semibold">Tiradas Instantáneas</span>
+<span class="font-body-md text-body-md text-brown-text text-[13px] leading-tight">Omite el giro cinemático de dados</span>
+</div>
+</div>
+<!-- Inactive Switch -->
+<button aria-checked="false" class="relative inline-flex h-8 w-14 flex-shrink-0 cursor-pointer rounded-full bg-switch-off p-1 transition-colors duration-200 ease-in-out focus:outline-none shadow-inner" data-toggle="switch" role="switch" type="button">
+<span class="pointer-events-none inline-block h-6 w-6 translate-x-0 transform rounded-full bg-sheet-bg shadow-md transition duration-200 ease-in-out border border-border-parchment/50"></span>
+</button>
+</div>
+</div>
+<!-- SECTION 3: Apariencia & Códice Visual -->
+<div class="flex flex-col bg-parchment border border-border-parchment rounded-xl p-space-sm space-y-space-xs shadow-sm">
+<div class="flex items-center justify-between px-space-xs py-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-lg text-mythic-gold">palette</span>
+<span class="font-headline-sm text-headline-sm text-obsidian">Tema del Santuario</span>
+</div>
+<span class="font-label-md text-label-md text-mythic-gold font-semibold">Pergamino</span>
+</div>
+<!-- 3-Way Segmented Theme Selector -->
+<div class="grid grid-cols-3 p-1 bg-parchment-control rounded-lg gap-1 min-h-[56px] items-center border border-border-parchment/70">
+<button class="h-11 rounded-md bg-transparent text-brown-text hover:text-obsidian flex items-center justify-center gap-1.5 transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-label-lg">dark_mode</span>
+<span class="font-label-md text-label-md font-medium">Oscuro</span>
+</button>
+<button class="h-11 rounded-md bg-sheet-bg text-mythic-gold border border-border-parchment/60 font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-label-lg" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+<span class="font-label-md text-label-md">Claro</span>
+</button>
+<button class="h-11 rounded-md bg-transparent text-brown-text hover:text-obsidian flex items-center justify-center gap-1.5 transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-label-lg">brightness_auto</span>
+<span class="font-label-md text-label-md font-medium">Auto</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Actions & Brand Veracity Footer -->
+<div class="flex flex-col px-margin pt-space-sm pb-space-lg space-y-space-md bg-sheet-bg border-t border-border-parchment/50">
+<!-- Master Action Button (Burnished Bronze/Gold Pill Button with Dark Text) -->
+<button class="w-full h-14 rounded-full bg-gradient-to-r from-[#B8860B] via-[#C59A27] to-[#B8860B] hover:brightness-105 active:scale-[0.98] text-obsidian font-bold flex items-center justify-center gap-space-sm shadow-md transition-all duration-150 border border-[#A67807]" type="button">
+<span class="material-symbols-outlined text-headline-sm text-obsidian" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-headline-sm text-headline-sm tracking-wider uppercase text-obsidian font-bold">Guardar y volver</span>
+</button>
+<!-- Canonical Version Verification -->
+<div class="flex items-center justify-center text-center px-space-md">
+<p class="font-label-md text-label-md text-brown-text text-[12px] opacity-80 tracking-wide">
+          Combate 2d6 • v1.2 Reglas Oficiales AoM Boardgame
+        </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction handlers for interactive switches & toggles
+  document.querySelectorAll('[data-toggle="switch"]').forEach(switchBtn => {
+    switchBtn.addEventListener('click', () => {
+      const isChecked = switchBtn.getAttribute('aria-checked') === 'true';
+      const knob = switchBtn.querySelector('span');
+      
+      if (isChecked) {
+        switchBtn.setAttribute('aria-checked', 'false');
+        switchBtn.classList.remove('bg-mythic-gold');
+        switchBtn.classList.add('bg-switch-off');
+        knob.classList.remove('translate-x-6');
+        knob.classList.add('translate-x-0');
+      } else {
+        switchBtn.setAttribute('aria-checked', 'true');
+        switchBtn.classList.remove('bg-switch-off');
+        switchBtn.classList.add('bg-mythic-gold');
+        knob.classList.remove('translate-x-0');
+        knob.classList.add('translate-x-6');
+      }
+    });
+  });
+
+  // Segmented toggle behavior for Tie-breaker
+  const tieReplay = document.getElementById('tie-replay-btn');
+  const tieDef = document.getElementById('tie-def-btn');
+
+  if (tieReplay && tieDef) {
+    tieReplay.addEventListener('click', () => {
+      tieReplay.className = "h-12 rounded-lg bg-sheet-bg text-mythic-gold border border-border-parchment/60 font-semibold flex items-center justify-center gap-space-xs transition-all duration-200 shadow-sm";
+      tieDef.className = "h-12 rounded-lg bg-transparent text-brown-text hover:text-obsidian flex items-center justify-center gap-space-xs transition-all duration-200";
+    });
+
+    tieDef.addEventListener('click', () => {
+      tieDef.className = "h-12 rounded-lg bg-sheet-bg text-mythic-gold border border-border-parchment/60 font-semibold flex items-center justify-center gap-space-xs transition-all duration-200 shadow-sm";
+      tieReplay.className = "h-12 rounded-lg bg-transparent text-brown-text hover:text-obsidian flex items-center justify-center gap-space-xs transition-all duration-200";
+    });
+  }
+</script></main></body></html>

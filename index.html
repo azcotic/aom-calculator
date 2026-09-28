@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Combate 2d6</title>
+<meta name="description" content="Calculadora de combate 2d6 para Age of Mythology: The Boardgame.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#161310">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<style>
+/* Combate 2d6 — hoja de estilos. Fuentes de sistema (Georgia/serif para totales y títulos,
+   system-ui/sans-serif para UI), sin fuentes ni imágenes externas. */
+
+:root[data-theme="oscuro"] {
+  --bg: #14110E;
+  --surface: #161310;
+  --surface-container-lowest: #110e0b;
+  --surface-container-low: #1e1b18;
+  --surface-container: #221f1c;
+  --surface-container-high: #2d2926;
+  --surface-container-highest: #383430;
+  --on-surface: #e9e1db;
+  --on-surface-variant: #d1c5b2;
+  --outline: #9a8f7e;
+  --outline-variant: #4e4637;
+  --primary: #ebc166;
+  --on-primary: #402d00;
+  --primary-container: #c9a24b;
+  --on-primary-container: #4f3900;
+  --secondary: #7bdb81;
+  --on-secondary: #00390f;
+  --secondary-container: #1c5c22;
+  --on-secondary-container: #b6f6ba;
+  --tertiary: #64d4f8;
+  --on-tertiary: #003543;
+  --tertiary-container: #1c6178;
+  --on-tertiary-container: #c7f0ff;
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --scrim: rgba(6, 4, 2, 0.72);
+}
+
+:root[data-theme="claro"] {
+  --bg: #F6EFE2;
+  --surface: #FBF7EE;
+  --surface-container-lowest: #FFFDF8;
+  --surface-container-low: #F1E9D8;
+  --surface-container: #EDE4D3;
+  --surface-container-high: #E2D6BE;
+  --surface-container-highest: #D7C8A9;
+  --on-surface: #2A2218;
+  --on-surface-variant: #4A3E31;
+  --outline: #6E5F4E;
+  --outline-variant: #C9BA9C;
+  --primary: #785600;
+  --on-primary: #FFF6E4;
+  --primary-container: #FFDEA0;
+  --on-primary-container: #4a3400;
+  --secondary: #1B6D24;
+  --on-secondary: #EAF7EA;
+  --secondary-container: #C6EDC7;
+  --on-secondary-container: #073d0d;
+  --tertiary: #006096;
+  --on-tertiary: #EAF6FC;
+  --tertiary-container: #BFE7FA;
+  --on-tertiary-container: #003347;
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --scrim: rgba(60, 50, 30, 0.45);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  background: var(--bg); color: var(--on-surface);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+  -webkit-user-select: none; user-select: none;
+}
+body { min-height: 100dvh; }
+.icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon svg { width: 100%; height: 100%; display: block; }
+.font-display { font-family: Georgia, "Times New Roman", serif; }
+
+#app {
+  max-width: 430px; min-width: 360px;
+  margin: 0 auto;
+  height: 100dvh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  background: var(--surface-container-lowest);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+.half {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex; flex-direction: column;
+  padding: 12px 16px;
+  overflow-y: auto;
+  background: var(--surface-container-low);
+}
+.half.rot { transform: rotate(180deg); }
+.half.hidden-side { display: none !important; }
+
+.center {
+  flex-shrink: 0;
+  background: var(--surface-container-highest);
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* --- Encabezados y textos comunes --- */
+.row { display: flex; align-items: center; }
+.row-between { display: flex; align-items: center; justify-content: space-between; }
+.muted { color: var(--on-surface-variant); }
+.label { font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; }
+.civ-egipto { color: var(--primary); }
+.civ-griegos { color: var(--secondary); }
+.civ-nordicos { color: var(--tertiary); }
+
+/* --- Paso 1: elegir civilización --- */
+.civ-tile {
+  width: 100%; min-height: 56px; border-radius: 12px;
+  padding: 10px 14px; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface-container); border: none; cursor: pointer;
+  color: inherit; font: inherit; text-align: left;
+  position: relative; overflow: hidden;
+}
+.civ-tile:last-child { margin-bottom: 0; }
+.civ-tile .stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; }
+.civ-tile.selected { background: var(--surface-container-high); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.civ-tile.disabled { opacity: 0.4; }
+.civ-tile .ico-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--surface-container-lowest); flex-shrink: 0; }
+.civ-tile .info { display: flex; flex-direction: column; margin-left: 12px; gap: 2px; min-width: 0; }
+.civ-tile .name { font-weight: 700; letter-spacing: 0.06em; font-size: 15px; }
+.civ-tile .sub { font-size: 12px; color: var(--on-surface-variant); }
+.check-badge { width: 26px; height: 26px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.big-btn {
+  width: 100%; min-height: 56px; border-radius: 12px; border: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  cursor: pointer; color: inherit;
+}
+.big-btn:active { transform: scale(0.97); }
+
+/* --- Paso 2: elegir unidad --- */
+.unit-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.unit-badge { display: flex; align-items: center; gap: 6px; background: var(--surface-container-highest); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-weight: 600; max-width: 55%; }
+.unit-badge span.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.group-header { display: flex; align-items: center; gap: 6px; padding: 6px 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.group-header .fill { margin-left: auto; font-size: 10px; color: var(--outline); text-transform: none; letter-spacing: 0; }
+.unit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+.unit-btn {
+  min-height: 48px; border-radius: 10px; border: none; background: var(--surface-container);
+  color: inherit; font: inherit; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px; padding: 4px; position: relative;
+}
+.unit-btn .uname { font-size: 12px; font-weight: 600; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.unit-btn .utype { font-size: 9px; color: var(--outline); display: flex; align-items: center; gap: 3px; }
+.unit-btn .ability-dot { position: absolute; top: 5px; right: 5px; width: 5px; height: 5px; border-radius: 999px; }
+.unit-btn.selected { font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+.type-glyph { font-size: 10px; line-height: 1; }
+
+.hidden-mask {
+  position: absolute; inset: 0; z-index: 30; backdrop-filter: blur(3px);
+  background: var(--scrim); display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 24px; gap: 6px; border-radius: 0;
+}
+.hidden-mask button { margin-top: 12px; }
+
+/* --- Paso 3: combate --- */
+.combat-header { display: flex; align-items: center; justify-content: space-between; }
+.combat-header .who { display: flex; align-items: center; gap: 8px; }
+.type-pill { display: flex; align-items: center; gap: 5px; background: var(--surface-container-high); border-radius: 999px; padding: 3px 9px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.score-row { display: flex; align-items: center; justify-content: space-between; margin: auto 0; gap: 8px; }
+.score-total { font-family: Georgia, serif; font-weight: 700; line-height: 0.95; }
+.score-sub { font-size: 12px; color: var(--on-surface-variant); margin-top: 2px; }
+.dice-pair { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* Dado plano en reposo (antes y después de tirar) — sin transforms 3D, robusto en todo
+   navegador. La animación de la tirada en sí ocurre aparte, en el overlay de colisión. */
+.die2d { width: 52px; height: 52px; position: relative; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface-container-lowest); border: 1px solid var(--outline-variant);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+.die3d-pip { position: absolute; width: 18%; height: 18%; margin: -9% 0 0 -9%; border-radius: 50%; background: var(--on-surface); }
+
+/* Overlay de pantalla completa: los 4 dados chocan entre sí (motor de física Matter.js)
+   durante la tirada; el <canvas> lo crea/limpia runDiceCollision() en cada tirada. */
+#dice-overlay { position: fixed; inset: 0; z-index: 500; pointer-events: none; }
+
+.mods-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
+.mod-chip {
+  display: flex; align-items: center; gap: 5px; padding: 7px 10px; border-radius: 10px;
+  border: 1px solid var(--outline-variant); background: transparent; color: var(--on-surface-variant);
+  font: inherit; font-size: 11px; font-weight: 600; cursor: pointer;
+}
+.mod-chip.active { border-color: transparent; }
+.mod-chip:disabled { opacity: 0.35; cursor: not-allowed; }
+.stepper { display: flex; align-items: center; border: 1px solid var(--outline-variant); border-radius: 10px; padding: 2px; gap: 2px; }
+.stepper button { width: 26px; height: 26px; border-radius: 7px; border: none; background: transparent; color: var(--on-surface-variant); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.stepper .val { min-width: 26px; text-align: center; font-size: 12px; font-weight: 700; }
+.counter-chip { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 10px; border: 1px solid var(--outline-variant); font-size: 11px; }
+
+.prob-bar { width: 100%; height: 12px; border-radius: 999px; overflow: hidden; display: flex; background: var(--surface-container-lowest); padding: 1px; }
+.prob-seg { height: 100%; }
+.prob-labels { display: flex; justify-content: space-between; font-size: 10px; margin-top: 4px; }
+.prob-effective { text-align: center; font-size: 11px; color: var(--on-surface-variant); margin-top: 4px; }
+
+.roll-trigger {
+  width: 100%; min-height: 88px; border-radius: 16px; border: 1.5px solid #fdf0cd;
+  display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
+  background: linear-gradient(#f5d78b 0%, #e6c676 20%, #c9a24b 55%, #9e7a2e 100%);
+  color: #231b0e; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 18px;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.65), inset 0 -3px 5px rgba(60,40,10,0.7), 0 2px 0 #7a5c1e, 0 6px 14px rgba(0,0,0,0.45);
+}
+.roll-trigger:active { transform: translateY(2px); }
+.roll-trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* --- Resultado (se muestra en la misma pantalla de combate) --- */
+.result-badge { display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 10px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+.action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.action-btn { min-height: 52px; border-radius: 12px; border: none; background: var(--surface-container-high); color: inherit; font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
+.action-btn span.lbl { font-size: 10px; font-weight: 600; }
+
+.result-center-line { display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; text-align: center; }
+.rule-toggle { text-align: center; margin-top: 4px; }
+.rule-toggle button { background: none; border: none; color: var(--on-surface-variant); text-decoration: underline; font: inherit; font-size: 11px; cursor: pointer; }
+.rule-explain { font-size: 12px; color: var(--on-surface-variant); background: var(--surface-container); border-radius: 10px; padding: 8px 10px; margin-top: 6px; text-align: left; }
+
+/* --- Historial (drawer) --- */
+.history-pull { display: flex; flex-direction: column; align-items: center; padding-top: 6px; cursor: pointer; gap: 3px; }
+.history-pull .bar { width: 40px; height: 4px; border-radius: 999px; background: var(--outline-variant); }
+.drawer {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-end; justify-content: center;
+}
+.drawer .backdrop { position: absolute; inset: 0; background: var(--scrim); }
+.drawer .sheet {
+  position: relative; width: 100%; max-width: 430px; max-height: 70vh; overflow-y: auto;
+  background: var(--surface-container-low); border-radius: 18px 18px 0 0; padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+}
+.history-item { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--outline-variant); font-size: 12px; }
+.history-item .num { color: var(--outline); }
+
+/* --- Ajustes modal --- */
+.modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-end; justify-content: center; }
+.modal .backdrop { position: absolute; inset: 0; background: var(--scrim); }
+.modal .sheet { position: relative; width: 100%; max-width: 430px; max-height: 85vh; overflow-y: auto; background: var(--surface-container-low); border-radius: 18px 18px 0 0; padding: 16px 18px calc(16px + env(safe-area-inset-bottom)); }
+.settings-section { margin-bottom: 16px; }
+.settings-section h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--on-surface-variant); margin: 0 0 8px; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; gap: 10px; }
+.settings-row > span:first-child { flex: 1 1 auto; min-width: 0; max-width: 68%; }
+.settings-row.stacked { flex-direction: column; align-items: stretch; gap: 6px; }
+.settings-row.stacked > span:first-child { max-width: 100%; }
+.settings-row.stacked .segmented { align-self: flex-start; }
+.settings-row .desc { font-size: 12px; color: var(--on-surface-variant); }
+.segmented { display: inline-flex; background: var(--surface-container); border-radius: 999px; padding: 2px; }
+.segmented button { border: none; background: transparent; font: inherit; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; cursor: pointer; color: var(--on-surface-variant); }
+.segmented button.active { background: var(--primary); color: var(--on-primary); }
+.switch { width: 42px; height: 24px; border-radius: 999px; background: var(--surface-container-high); position: relative; border: none; cursor: pointer; flex-shrink: 0; }
+.switch .knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 999px; background: var(--outline); transition: left 0.15s, background 0.15s; }
+.switch.on { background: var(--primary-container); }
+.switch.on .knob { left: 20px; background: var(--primary); }
+
+.warning-banner { background: var(--error); color: var(--on-error); border-radius: 10px; padding: 8px 12px; font-size: 12px; margin-bottom: 8px; }
+
+.top-actions { position: absolute; top: 8px; right: 8px; z-index: 40; display: flex; gap: 6px; }
+.icon-btn { width: 32px; height: 32px; border-radius: 999px; background: var(--surface-container); border: none; color: var(--on-surface-variant); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+</style>
+</head>
+<body data-theme="oscuro">
+<div id="app">
+  <div id="half-top" class="half rot"></div>
+  <div id="center-strip" class="center"></div>
+  <div id="half-bottom" class="half"></div>
+  <div id="overlays"></div>
+  <div id="dice-overlay"></div>
+</div>
+<script>
+// Iconos SVG inline (sin fuentes externas, sin Material Symbols). currentColor para heredar tema.
+const ICONS = {
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>',
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3l18 18"/><path d="M10.6 5.2C11 5.1 11.5 5 12 5c6.5 0 10 7 10 7a15.8 15.8 0 0 1-3 3.9M6.6 6.6C4 8.3 2 12 2 12s3.5 7 10 7c1.2 0 2.3-.2 3.3-.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/></svg>',
+  dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.3" cy="8.3" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.7" cy="8.3" r="1.3" fill="currentColor" stroke="none"/><circle cx="8.3" cy="15.7" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.7" cy="15.7" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 12V6M4 12h6"/></svg>',
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 4 3 4H5"/></svg>',
+  swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13M13 4l4 4-4 4"/><path d="M20 16H7M11 12l-4 4 4 4"/></svg>',
+  replay: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 6v6h-6"/></svg>',
+  sword: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l7-7M14 4l6 6-9 9-4-2-2-4 9-9Z"/></svg>',
+  crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 18h18l-1.5-8-4 3-3.5-6-3.5 6-4-3L3 18Z"/></svg>',
+  history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  minus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"/></svg>',
+  fort: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 21V9l3-2 2 2 3-2 3 2 2-2 3 2v12"/><path d="M4 21h16"/></svg>',
+  throw: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.4"/><path d="M9.5 9 19 18M15 18h4v-4"/></svg>',
+  medal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="5.5"/><path d="M9 13.5 7 21l5-2.5 5 2.5-2-7.5"/></svg>',
+  laurel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-3.5 3-4.5 8-2.5 13M12 3c3.5 3 4.5 8 2.5 13M6 9c-1.6.4-3 1.6-3.6 3.2M18 9c1.6.4 3 1.6 3.6 3.2"/><path d="M8 20h8"/></svg>',
+};
+function icon(name, size) {
+  const s = size || 18;
+  return `<span class="icon" style="width:${s}px;height:${s}px" aria-hidden="true">${ICONS[name] || ''}</span>`;
+}
+
+</script>
+<script>
+// Motor de reglas de "Combate 2d6". JS puro, sin DOM — ejecutable en Node o en el navegador.
+// No redondea ni corrige ningún número de datos: los totales de tabla vienen tal cual del CSV.
+
+/**
+ * Busca la fila de enfrentamiento entre dos unidades de civilizaciones distintas.
+ * @param {Array} enfrentamientos - filas de enfrentamientos.csv
+ * @returns {{ totalA: number, totalB: number, diff: number } | null}
+ */
+function lookupMatchup(enfrentamientos, civA, unidadA, civB, unidadB) {
+  const row = enfrentamientos.find(
+    (r) => r.civ_a === civA && r.unidad_a === unidadA && r.civ_b === civB && r.unidad_b === unidadB
+  );
+  if (!row) return null;
+  return { totalA: row.total_a, totalB: row.total_b, diff: row.diff };
+}
+
+/**
+ * Suma los modificadores activos de un lado y calcula el puntaje final de esa tirada.
+ * @param {{ tableTotal: number, die1: number, die2: number, modifiers: Array<{id:string,label:string,value:number}> }} side
+ */
+function computeSide({ tableTotal, die1, die2, modifiers = [] }) {
+  const diceSum = die1 + die2;
+  const isDoubles = die1 === die2;
+  const modifiersSum = modifiers.reduce((sum, m) => sum + m.value, 0);
+  const score = tableTotal + diceSum + modifiersSum;
+  return { tableTotal, die1, die2, diceSum, isDoubles, modifiers, modifiersSum, score };
+}
+
+// Combina una lista de lados favorecidos ('A'/'B') por efectos de dobles o de empate.
+// Sin efectos -> null. Un único lado favorecido -> ese lado. Lados distintos favorecidos
+// (contradicción, p.ej. dos Medusas o dos Berserkers) -> 'cancel', se anulan entre sí.
+function combineFavors(favors) {
+  const set = new Set(favors);
+  if (set.size === 0) return null;
+  if (set.size === 1) return [...set][0];
+  return 'cancel';
+}
+
+/**
+ * Resuelve un combate ya con dados concretos, siguiendo el orden de §4:
+ * 1) efectos de dobles (Medusa gana en dobles, Berserk pierde en dobles) — si el resultado
+ *    combinado favorece un único lado, ese lado gana sin comparar puntaje.
+ * 2) si no hay efecto de dobles decisivo, gana el puntaje más alto.
+ * 3) en empate de puntaje: Medusa gana empates, Berserk pierde empates; si ninguna regla
+ *    aplica (o se contradicen) es empate real, resuelto según `options.tieRule`.
+ *
+ * @param {object} sideA { tableTotal, die1, die2, modifiers, medusa, berserkActive }
+ * @param {object} sideB idem
+ * @param {{ tieRule?: 'repetir'|'defensor', defenderSide?: 'A'|'B' }} options
+ */
+function resolveCombat(sideA, sideB, options = {}) {
+  const { tieRule = 'repetir', defenderSide = null } = options;
+  const a = computeSide(sideA);
+  const b = computeSide(sideB);
+
+  const doublesFavors = [];
+  if (a.isDoubles) {
+    if (sideA.medusa) doublesFavors.push('A');
+    if (sideA.berserkActive) doublesFavors.push('B');
+  }
+  if (b.isDoubles) {
+    if (sideB.medusa) doublesFavors.push('B');
+    if (sideB.berserkActive) doublesFavors.push('A');
+  }
+  const doublesResult = combineFavors(doublesFavors);
+  if (doublesResult === 'A' || doublesResult === 'B') {
+    const reason = doublesResult === 'A'
+      ? (sideA.medusa && a.isDoubles ? 'medusa' : 'berserk-rival')
+      : (sideB.medusa && b.isDoubles ? 'medusa' : 'berserk-rival');
+    return { a, b, winner: doublesResult, rule: 'dobles', reason };
+  }
+
+  if (a.score > b.score) return { a, b, winner: 'A', rule: 'puntaje' };
+  if (b.score > a.score) return { a, b, winner: 'B', rule: 'puntaje' };
+
+  // Empate de puntaje.
+  const tieFavors = [];
+  if (sideA.medusa) tieFavors.push('A');
+  if (sideB.medusa) tieFavors.push('B');
+  if (sideA.berserkActive) tieFavors.push('B');
+  if (sideB.berserkActive) tieFavors.push('A');
+  const tieResult = combineFavors(tieFavors);
+  if (tieResult === 'A' || tieResult === 'B') {
+    const reason = tieResult === 'A'
+      ? (sideA.medusa ? 'medusa' : 'berserk-rival')
+      : (sideB.medusa ? 'medusa' : 'berserk-rival');
+    return { a, b, winner: tieResult, rule: 'empate-habilidad', reason };
+  }
+
+  if (tieRule === 'defensor' && defenderSide) {
+    return { a, b, winner: defenderSide, rule: 'empate-defensor' };
+  }
+  return { a, b, winner: 'empate', rule: 'empate-real' };
+}
+
+/**
+ * Enumera las 36x36 = 1296 combinaciones de dados posibles y cuenta victorias de A, de B
+ * y empates reales, usando exactamente `resolveCombat` (misma lógica que una tirada real).
+ * @param {object} sideAConfig { tableTotal, modifiers, medusa, berserkActive } (sin dados)
+ * @param {object} sideBConfig idem
+ * @param {{ tieRule?: 'repetir'|'defensor', defenderSide?: 'A'|'B' }} options
+ */
+function enumerateProbabilities(sideAConfig, sideBConfig, options = {}) {
+  let winsA = 0;
+  let winsB = 0;
+  let ties = 0;
+  const total = 1296;
+  for (let a1 = 1; a1 <= 6; a1++) {
+    for (let a2 = 1; a2 <= 6; a2++) {
+      for (let b1 = 1; b1 <= 6; b1++) {
+        for (let b2 = 1; b2 <= 6; b2++) {
+          const result = resolveCombat(
+            { ...sideAConfig, die1: a1, die2: a2 },
+            { ...sideBConfig, die1: b1, die2: b2 },
+            options
+          );
+          if (result.winner === 'A') winsA++;
+          else if (result.winner === 'B') winsB++;
+          else ties++;
+        }
+      }
+    }
+  }
+  const pA = winsA / total;
+  const pB = winsB / total;
+  const pTie = ties / total;
+  const efectivoA = pA + pB > 0 ? pA / (pA + pB) : 0.5;
+  const efectivoB = pA + pB > 0 ? pB / (pA + pB) : 0.5;
+  return { total, winsA, winsB, ties, pA, pB, pTie, efectivoA, efectivoB };
+}
+
+// GENERATED FILE — do not edit by hand. Run `node dev/build-data.mjs` to regenerate from data/*.csv.
+const UNIDADES = [{"civ":"Egipto","unidad":"Chariot Archer","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Egipto","unidad":"Spearman","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Egipto","unidad":"Elephant","tipo":"mortal","habilidad":"Walls and Towers","berserk_bonus":0},{"civ":"Egipto","unidad":"Mummy","tipo":"mitico","habilidad":"Multiplies with wins","berserk_bonus":0},{"civ":"Egipto","unidad":"Scorpion-Man","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Egipto","unidad":"Sphinx","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Egipto","unidad":"Phoenix","tipo":"mitico","habilidad":"Resurrect by Priest","berserk_bonus":0},{"civ":"Egipto","unidad":"Wadjet","tipo":"mitico","habilidad":"Replace Pharaoh","berserk_bonus":0},{"civ":"Egipto","unidad":"Anubite","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Egipto","unidad":"Priest","tipo":"heroe","habilidad":"Resurrect P and SOO","berserk_bonus":0},{"civ":"Egipto","unidad":"Pharaoh","tipo":"heroe","habilidad":"Replaced by Wadjet","berserk_bonus":0},{"civ":"Egipto","unidad":"Son of Osiris","tipo":"heroe","habilidad":"Resurrect by Priest","berserk_bonus":0},{"civ":"Nordicos","unidad":"Jarl","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Nordicos","unidad":"Throwing Axeman","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Nordicos","unidad":"Huskarl","tipo":"mortal","habilidad":"+2 Berserk (lose ties)","berserk_bonus":2},{"civ":"Nordicos","unidad":"Nidhogg","tipo":"mitico","habilidad":"2 buildings if survive","berserk_bonus":0},{"civ":"Nordicos","unidad":"Valkyrie","tipo":"mitico","habilidad":"+2 for each unit eliminated","berserk_bonus":0},{"civ":"Nordicos","unidad":"Frost Giant","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Nordicos","unidad":"Troll","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Nordicos","unidad":"Dwarf","tipo":"mitico","habilidad":"Walls and Towers; Gather +2","berserk_bonus":0},{"civ":"Nordicos","unidad":"Classical Hero","tipo":"heroe","habilidad":"","berserk_bonus":0},{"civ":"Nordicos","unidad":"Heroic Hero","tipo":"heroe","habilidad":"+2 Berserk (lose ties)","berserk_bonus":2},{"civ":"Nordicos","unidad":"Mythic Hero","tipo":"heroe","habilidad":"-1 enemy = holding area","berserk_bonus":0},{"civ":"Griegos","unidad":"Hoplite","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Hippokon","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Toxotes","tipo":"mortal","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Hydra","tipo":"mitico","habilidad":"+1 for each unit defeated","berserk_bonus":0},{"civ":"Griegos","unidad":"Cyclops","tipo":"mitico","habilidad":"Walls and Towers; +3 Throw","berserk_bonus":0},{"civ":"Griegos","unidad":"Minotaur","tipo":"mitico","habilidad":"2 buildings if survive","berserk_bonus":0},{"civ":"Griegos","unidad":"Manticore","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Centaur","tipo":"mitico","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Medusa","tipo":"mitico","habilidad":"Wins all ties","berserk_bonus":0},{"civ":"Griegos","unidad":"Classical Hero","tipo":"heroe","habilidad":"","berserk_bonus":0},{"civ":"Griegos","unidad":"Heroic Hero","tipo":"heroe","habilidad":"Defeat hero, army retreat","berserk_bonus":0},{"civ":"Griegos","unidad":"Mythical Hero","tipo":"heroe","habilidad":"Adds opponent's dice","berserk_bonus":0}];
+
+const ENFRENTAMIENTOS = [{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Jarl","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":3,"total_b":3,"diff":0},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Troll","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Jarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":3,"total_b":3,"diff":0},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Troll","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":7,"total_b":5,"diff":2},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":7,"total_b":6,"diff":1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Troll","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":11,"diff":-8},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Jarl","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":11,"diff":-6},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":11,"total_b":7,"diff":4},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Jarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Troll","total_a":6,"total_b":6,"diff":0},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":10,"total_b":4,"diff":6},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Jarl","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Jarl","total_a":4,"total_b":7,"diff":-3},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":4,"total_b":3,"diff":1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":4,"total_b":3,"diff":1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":9,"total_b":7,"diff":2},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":9,"total_b":7,"diff":2},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Troll","total_a":9,"total_b":6,"diff":3},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":9,"total_b":4,"diff":5},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":4,"total_b":6,"diff":-2},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":4,"total_b":8,"diff":-4},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Jarl","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":10,"total_b":7,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":10,"total_b":7,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Troll","total_a":10,"total_b":6,"diff":4},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":10,"total_b":4,"diff":6},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":6,"total_b":6,"diff":0},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":6,"total_b":8,"diff":-2},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Jarl","total_a":8,"total_b":7,"diff":1},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":8,"total_b":3,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":8,"total_b":3,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":12,"total_b":7,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":12,"total_b":5,"diff":7},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":12,"total_b":7,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Troll","total_a":12,"total_b":6,"diff":6},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":12,"total_b":4,"diff":8},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":8,"total_b":5,"diff":3},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":8,"total_b":6,"diff":2},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":8,"total_b":8,"diff":0},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Spearman","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Elephant","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Phoenix","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Wadjet","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Anubite","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Priest","total_a":7,"total_b":4,"diff":3},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":3,"total_b":3,"diff":0},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Spearman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Elephant","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Phoenix","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Wadjet","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Anubite","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Priest","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Spearman","total_a":3,"total_b":3,"diff":0},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Elephant","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Phoenix","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Wadjet","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Anubite","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Priest","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Spearman","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Elephant","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Mummy","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Sphinx","total_a":11,"total_b":5,"diff":6},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Phoenix","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Wadjet","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Anubite","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Priest","total_a":7,"total_b":9,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":7,"total_b":10,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":7,"total_b":12,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":9,"total_b":3,"diff":6},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Mummy","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Sphinx","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Phoenix","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Wadjet","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Anubite","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Spearman","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Elephant","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Mummy","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Sphinx","total_a":7,"total_b":11,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Phoenix","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Wadjet","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Anubite","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Priest","total_a":7,"total_b":9,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":7,"total_b":10,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":7,"total_b":12,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":10,"total_b":6,"diff":4},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Spearman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Elephant","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Mummy","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Sphinx","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Phoenix","total_a":6,"total_b":6,"diff":0},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Wadjet","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Anubite","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Priest","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":4,"total_b":3,"diff":1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Spearman","total_a":4,"total_b":3,"diff":1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Elephant","total_a":11,"total_b":3,"diff":8},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Mummy","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Sphinx","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Phoenix","total_a":4,"total_b":10,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Wadjet","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Anubite","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Priest","total_a":4,"total_b":9,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":4,"total_b":10,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":4,"total_b":12,"diff":-8},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":9,"total_b":6,"diff":3},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":4,"diff":1},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":8,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":10,"total_b":6,"diff":4},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":6,"total_b":4,"diff":2},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":6,"total_b":6,"diff":0},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":6,"total_b":8,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":8,"total_b":3,"diff":5},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":8,"total_b":7,"diff":1},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":8,"total_b":3,"diff":5},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":12,"total_b":6,"diff":6},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":8,"total_b":4,"diff":4},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":8,"total_b":6,"diff":2},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":8,"total_b":8,"diff":0},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Hippokon","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Toxotes","total_a":3,"total_b":3,"diff":0},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Minotaur","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Manticore","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Centaur","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Chariot Archer","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Hoplite","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Hippokon","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Toxotes","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Minotaur","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Manticore","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Centaur","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":7,"total_b":5,"diff":2},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":7,"total_b":6,"diff":1},{"civ_a":"Egipto","unidad_a":"Spearman","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":4,"diff":1},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Toxotes","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Minotaur","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Manticore","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Centaur","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":11,"diff":-8},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Egipto","unidad_a":"Elephant","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Toxotes","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Hydra","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Cyclops","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Centaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Mummy","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Hoplite","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Hippokon","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Toxotes","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Hydra","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Cyclops","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Centaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":11,"diff":-6},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":9,"total_b":9,"diff":0},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":9,"total_b":10,"diff":-1},{"civ_a":"Egipto","unidad_a":"Scorpion-Man","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":9,"total_b":10,"diff":-1},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Toxotes","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Hydra","total_a":11,"total_b":6,"diff":5},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Cyclops","total_a":11,"total_b":6,"diff":5},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Centaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Sphinx","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Hippokon","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Toxotes","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Hydra","total_a":6,"total_b":6,"diff":0},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Cyclops","total_a":6,"total_b":6,"diff":0},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Minotaur","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Manticore","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Centaur","total_a":6,"total_b":8,"diff":-2},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Medusa","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Egipto","unidad_a":"Phoenix","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Hippokon","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Toxotes","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Hydra","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Cyclops","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Centaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Wadjet","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":3,"diff":2},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Toxotes","total_a":9,"total_b":3,"diff":6},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Hydra","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Cyclops","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Centaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":5,"diff":0},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Anubite","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Hoplite","total_a":4,"total_b":3,"diff":1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Hippokon","total_a":4,"total_b":7,"diff":-3},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Toxotes","total_a":4,"total_b":3,"diff":1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Hydra","total_a":9,"total_b":6,"diff":3},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Cyclops","total_a":9,"total_b":6,"diff":3},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Minotaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Manticore","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Centaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Medusa","total_a":9,"total_b":5,"diff":4},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":4,"total_b":6,"diff":-2},{"civ_a":"Egipto","unidad_a":"Priest","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":4,"total_b":9,"diff":-5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Hippokon","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Toxotes","total_a":6,"total_b":3,"diff":3},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Hydra","total_a":10,"total_b":6,"diff":4},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Cyclops","total_a":10,"total_b":6,"diff":4},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Minotaur","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Manticore","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Centaur","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Medusa","total_a":10,"total_b":5,"diff":5},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":6,"total_b":5,"diff":1},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":6,"total_b":6,"diff":0},{"civ_a":"Egipto","unidad_a":"Pharaoh","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Hoplite","total_a":8,"total_b":3,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Hippokon","total_a":8,"total_b":7,"diff":1},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Toxotes","total_a":8,"total_b":3,"diff":5},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Hydra","total_a":12,"total_b":6,"diff":6},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Cyclops","total_a":12,"total_b":6,"diff":6},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Minotaur","total_a":12,"total_b":5,"diff":7},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Manticore","total_a":12,"total_b":5,"diff":7},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Centaur","total_a":12,"total_b":5,"diff":7},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Medusa","total_a":12,"total_b":5,"diff":7},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":8,"total_b":5,"diff":3},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":8,"total_b":6,"diff":2},{"civ_a":"Egipto","unidad_a":"Son of Osiris","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":8,"total_b":13,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":7,"total_b":6,"diff":1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Spearman","total_a":4,"total_b":3,"diff":1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Elephant","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Phoenix","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Wadjet","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Anubite","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Priest","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":7,"total_b":3,"diff":4},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Spearman","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Elephant","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Phoenix","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Wadjet","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Anubite","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Priest","total_a":7,"total_b":4,"diff":3},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":7,"total_b":6,"diff":1},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":3,"total_b":3,"diff":0},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Spearman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Elephant","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Mummy","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Sphinx","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Phoenix","total_a":7,"total_b":6,"diff":1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Wadjet","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Anubite","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Priest","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Spearman","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Elephant","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Mummy","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Sphinx","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Phoenix","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Wadjet","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Anubite","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Priest","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Spearman","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Elephant","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Mummy","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Sphinx","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Phoenix","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Wadjet","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Anubite","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Priest","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":9,"total_b":6,"diff":3},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Mummy","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Sphinx","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Phoenix","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Wadjet","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Anubite","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Mummy","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Sphinx","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Phoenix","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Wadjet","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Anubite","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Mummy","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Sphinx","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Phoenix","total_a":8,"total_b":6,"diff":2},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Wadjet","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Anubite","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Elephant","total_a":11,"total_b":3,"diff":8},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Mummy","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":11,"total_b":5,"diff":6},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Sphinx","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Phoenix","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Wadjet","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Anubite","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":9,"total_b":9,"diff":0},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":9,"total_b":6,"diff":3},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":5,"total_b":4,"diff":1},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":5,"total_b":8,"diff":-3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":10,"total_b":9,"diff":1},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":10,"total_b":6,"diff":4},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":6,"total_b":4,"diff":2},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":6,"total_b":8,"diff":-2},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Chariot Archer","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Spearman","total_a":8,"total_b":7,"diff":1},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Elephant","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Mummy","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Scorpion-Man","total_a":10,"total_b":9,"diff":1},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Sphinx","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Phoenix","total_a":10,"total_b":6,"diff":4},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Wadjet","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Anubite","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Priest","total_a":9,"total_b":4,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Pharaoh","total_a":11,"total_b":6,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Egipto","unidad_b":"Son of Osiris","total_a":13,"total_b":8,"diff":5},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Jarl","total_a":7,"total_b":3,"diff":4},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":4,"total_b":6,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":4,"total_b":3,"diff":1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":12,"diff":-9},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Troll","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hoplite","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Jarl","total_a":3,"total_b":3,"diff":0},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":7,"total_b":3,"diff":4},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Troll","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":7,"total_b":5,"diff":2},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":7,"total_b":6,"diff":1},{"civ_a":"Griegos","unidad_a":"Hippokon","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Jarl","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":3,"total_b":3,"diff":0},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":7,"total_b":7,"diff":0},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Troll","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Griegos","unidad_a":"Toxotes","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Jarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Troll","total_a":10,"total_b":6,"diff":4},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Griegos","unidad_a":"Hydra","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Jarl","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":10,"total_b":3,"diff":7},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Troll","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Griegos","unidad_a":"Cyclops","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":6,"total_b":12,"diff":-6},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Jarl","total_a":9,"total_b":3,"diff":6},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Minotaur","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":9,"total_b":4,"diff":5},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Manticore","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":8,"total_b":7,"diff":1},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Centaur","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":5,"total_b":11,"diff":-6},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":11,"total_b":7,"diff":4},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Troll","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":5,"total_b":4,"diff":1},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Griegos","unidad_a":"Medusa","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":12,"diff":-7},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Jarl","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":5,"total_b":3,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":9,"total_b":7,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":9,"total_b":5,"diff":4},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":9,"total_b":7,"diff":2},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Troll","total_a":9,"total_b":6,"diff":3},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":9,"total_b":4,"diff":5},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":5,"total_b":5,"diff":0},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Griegos","unidad_a":"Classical Hero","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":5,"total_b":8,"diff":-3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Jarl","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":6,"total_b":3,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":10,"total_b":7,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":10,"total_b":7,"diff":3},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Troll","total_a":10,"total_b":6,"diff":4},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":10,"total_b":4,"diff":6},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":6,"total_b":5,"diff":1},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":6,"total_b":6,"diff":0},{"civ_a":"Griegos","unidad_a":"Heroic Hero","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":6,"total_b":8,"diff":-2},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Jarl","total_a":8,"total_b":7,"diff":1},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Throwing Axeman","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Huskarl","total_a":8,"total_b":3,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Nidhogg","total_a":12,"total_b":7,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Valkyrie","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Frost Giant","total_a":12,"total_b":7,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Troll","total_a":11,"total_b":6,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Dwarf","total_a":9,"total_b":4,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Classical Hero","total_a":10,"total_b":5,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Heroic Hero","total_a":11,"total_b":6,"diff":5},{"civ_a":"Griegos","unidad_a":"Mythical Hero","civ_b":"Nordicos","unidad_b":"Mythic Hero","total_a":13,"total_b":8,"diff":5},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Hoplite","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Hippokon","total_a":3,"total_b":3,"diff":0},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Toxotes","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Minotaur","total_a":3,"total_b":9,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Manticore","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Centaur","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Jarl","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":4,"diff":2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Hippokon","total_a":3,"total_b":7,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Toxotes","total_a":3,"total_b":3,"diff":0},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Minotaur","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Manticore","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Centaur","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Throwing Axeman","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Hoplite","total_a":3,"total_b":4,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Hippokon","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Toxotes","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Hydra","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Cyclops","total_a":3,"total_b":10,"diff":-7},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Minotaur","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Manticore","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Centaur","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Medusa","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":3,"total_b":5,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":3,"total_b":6,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Huskarl","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":3,"total_b":8,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Hoplite","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Hippokon","total_a":7,"total_b":3,"diff":4},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Toxotes","total_a":7,"total_b":7,"diff":0},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Hydra","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Cyclops","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Minotaur","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Manticore","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Centaur","total_a":7,"total_b":8,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Medusa","total_a":11,"total_b":5,"diff":6},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":7,"total_b":9,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":7,"total_b":10,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Nidhogg","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":7,"total_b":12,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Toxotes","total_a":9,"total_b":3,"diff":6},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Hydra","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Cyclops","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Minotaur","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Manticore","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Centaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Medusa","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":9,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Valkyrie","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Hoplite","total_a":12,"total_b":3,"diff":9},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Hippokon","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Toxotes","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Hydra","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Cyclops","total_a":7,"total_b":6,"diff":1},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Minotaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Manticore","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Centaur","total_a":7,"total_b":5,"diff":2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Medusa","total_a":7,"total_b":11,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":7,"total_b":9,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":7,"total_b":10,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Frost Giant","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":7,"total_b":12,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Hippokon","total_a":10,"total_b":3,"diff":7},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Toxotes","total_a":6,"total_b":6,"diff":0},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Hydra","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Cyclops","total_a":6,"total_b":6,"diff":0},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Minotaur","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Manticore","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Centaur","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Medusa","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":6,"total_b":9,"diff":-3},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":6,"total_b":10,"diff":-4},{"civ_a":"Nordicos","unidad_a":"Troll","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Hoplite","total_a":4,"total_b":3,"diff":1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Hippokon","total_a":4,"total_b":3,"diff":1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Toxotes","total_a":4,"total_b":3,"diff":1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Hydra","total_a":11,"total_b":6,"diff":5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Cyclops","total_a":11,"total_b":6,"diff":5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Minotaur","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Manticore","total_a":4,"total_b":9,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Centaur","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Medusa","total_a":4,"total_b":5,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":4,"total_b":9,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":4,"total_b":10,"diff":-6},{"civ_a":"Nordicos","unidad_a":"Dwarf","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":4,"total_b":9,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Hoplite","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Hippokon","total_a":5,"total_b":7,"diff":-2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Toxotes","total_a":5,"total_b":3,"diff":2},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Hydra","total_a":9,"total_b":6,"diff":3},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Cyclops","total_a":9,"total_b":6,"diff":3},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Minotaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Manticore","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Centaur","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Medusa","total_a":9,"total_b":5,"diff":4},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":5,"total_b":5,"diff":0},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":5,"total_b":6,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Classical Hero","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":5,"total_b":10,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Hoplite","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Hippokon","total_a":6,"total_b":7,"diff":-1},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Toxotes","total_a":6,"total_b":3,"diff":3},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Hydra","total_a":10,"total_b":6,"diff":4},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Cyclops","total_a":10,"total_b":6,"diff":4},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Minotaur","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Manticore","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Centaur","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Medusa","total_a":10,"total_b":5,"diff":5},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":6,"total_b":5,"diff":1},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":6,"total_b":6,"diff":0},{"civ_a":"Nordicos","unidad_a":"Heroic Hero","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":6,"total_b":11,"diff":-5},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Hoplite","total_a":8,"total_b":3,"diff":5},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Hippokon","total_a":8,"total_b":7,"diff":1},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Toxotes","total_a":8,"total_b":3,"diff":5},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Hydra","total_a":12,"total_b":6,"diff":6},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Cyclops","total_a":12,"total_b":6,"diff":6},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Minotaur","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Manticore","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Centaur","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Medusa","total_a":12,"total_b":5,"diff":7},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Classical Hero","total_a":8,"total_b":5,"diff":3},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Heroic Hero","total_a":8,"total_b":6,"diff":2},{"civ_a":"Nordicos","unidad_a":"Mythic Hero","civ_b":"Griegos","unidad_b":"Mythical Hero","total_a":8,"total_b":13,"diff":-5}];
+
+</script>
+<script src="matter.min.js"></script>
+<script>
+// Combate 2d6 — lógica de interfaz. Usa engine.js (resolveCombat, enumerateProbabilities,
+// lookupMatchup) y data.js (UNIDADES, ENFRENTAMIENTOS) ya inlineados en el mismo documento.
+// Sin dependencias externas.
+
+const CIV_META = {
+  Egipto:   { label: 'Egipto',   tag: 'Poder del Nilo',   sub: 'Monumentos & Faraones', color: 'primary',   icon: 'shield' },
+  Griegos:  { label: 'Griegos',  tag: 'Favor Olímpico',   sub: 'Hoplitas & Filósofos',  color: 'secondary', icon: 'laurel' },
+  Nordicos: { label: 'Nórdicos', tag: 'Furia de Odín',    sub: 'Jarls & Valkirias',     color: 'tertiary',  icon: 'sword' },
+};
+const TIPO_META = {
+  mortal: { label: 'Mortales', glyph: '●', sub: 'Fuerza Base' },
+  mitico: { label: 'Míticos', glyph: '◆', sub: 'Poder Divino' },
+  heroe:  { label: 'Héroes',  glyph: '★', sub: 'Antimítico' },
+};
+const TIPO_ORDER = ['mortal', 'mitico', 'heroe'];
+
+function storageGet(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) { return fallback; }
+}
+function storageSet(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* localStorage no disponible: seguimos sin persistir */ }
+}
+
+function freshPlayer() {
+  return {
+    civ: null, unidad: null, tipo: null, habilidad: '', berserkBonus: 0,
+    ready: false, unitReady: false, revealed: false,
+    wall: false, throwOn: false, berserkActive: false, manualMod: 0,
+    hydraCount: 0, valkyrieCount: 0, retired: false,
+    die1: null, die2: null,
+  };
+}
+
+const DEFAULT_STATE = {
+  screen: 'civ', // 'civ' | 'unidad' | 'combate'
+  players: { A: freshPlayer(), B: freshPlayer() },
+  hiddenSelection: false,
+  lastResult: null,
+  ruleExpanded: false,
+  history: [],
+  settings: {
+    tieRule: 'repetir', // 'repetir' | 'defensor'
+    defenderSide: null,
+    doublesRulesOn: true,
+    singleView: false,
+    haptics: true,
+    sound: false,
+    instantRolls: false,
+    theme: 'oscuro', // 'oscuro' | 'claro' | 'auto'
+  },
+  drawerOpen: false,
+  settingsOpen: false,
+  abilityCard: null,
+};
+
+let state = storageGet('combate2d6-state', null) || JSON.parse(JSON.stringify(DEFAULT_STATE));
+// Migración defensiva por si el localStorage guardó una forma antigua/incompleta.
+state.players = state.players || { A: freshPlayer(), B: freshPlayer() };
+state.settings = Object.assign({}, DEFAULT_STATE.settings, state.settings || {});
+
+// Bandera transitoria de animación de tirada — NO se persiste (vive fuera de `state`).
+let rollingAnim = false;
+
+function persist() { storageSet('combate2d6-state', state); }
+
+function otherSide(side) { return side === 'A' ? 'B' : 'A'; }
+
+function vibrate(ms) {
+  if (state.settings.haptics && navigator.vibrate) {
+    try { navigator.vibrate(ms); } catch (e) { /* sin soporte de vibración */ }
+  }
+}
+
+let audioCtx = null;
+// Sonido de dados: varios golpes cortos de ruido filtrado, emulando un traqueteo de dados,
+// sintetizado con Web Audio (sin archivos de audio, sin red).
+function playDiceSound() {
+  if (!state.settings.sound) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = audioCtx;
+    const now = ctx.currentTime;
+    const hits = 5;
+    for (let i = 0; i < hits; i++) {
+      const t = now + i * 0.09 + Math.random() * 0.02;
+      const dur = 0.05;
+      const buffer = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let j = 0; j < data.length; j++) data[j] = (Math.random() * 2 - 1) * (1 - j / data.length);
+      const src = ctx.createBufferSource();
+      src.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1000 + Math.random() * 900;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.28 * (1 - (i / hits) * 0.5), t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      src.connect(filter).connect(gain).connect(ctx.destination);
+      src.start(t);
+      src.stop(t + dur);
+    }
+  } catch (e) { /* Web Audio no disponible */ }
+}
+
+function applyTheme() {
+  const root = document.documentElement;
+  let effective = state.settings.theme;
+  if (effective === 'auto') {
+    effective = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'oscuro';
+  }
+  root.setAttribute('data-theme', effective);
+}
+
+let wakeLock = null;
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
+  } catch (e) { /* no disponible o denegado: seguimos sin bloquear pantalla */ }
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') requestWakeLock();
+});
+
+// ---------- Datos derivados ----------
+function unitsForCiv(civ) { return UNIDADES.filter((u) => u.civ === civ); }
+function findUnit(civ, unidad) { return UNIDADES.find((u) => u.civ === civ && u.unidad === unidad); }
+
+function getMatchup(sideA, sideB) {
+  if (!sideA.civ || !sideA.unidad || !sideB.civ || !sideB.unidad) return null;
+  const row = lookupMatchup(ENFRENTAMIENTOS, sideA.civ, sideA.unidad, sideB.civ, sideB.unidad);
+  return row;
+}
+
+function modifiersFor(side, tableTotalOther) {
+  const mods = [];
+  if (side.wall) mods.push({ id: 'wall', label: 'Muro/Torre', value: 2 });
+  if (side.throwOn) mods.push({ id: 'throw', label: 'Lanzar', value: 3 });
+  if (side.berserkActive) mods.push({ id: 'berserk', label: 'Berserk', value: 2 });
+  if (side.unidad === 'Hydra' && side.hydraCount > 0) mods.push({ id: 'hydra', label: 'Hidra', value: side.hydraCount * 1 });
+  if (side.unidad === 'Valkyrie' && side.valkyrieCount > 0) mods.push({ id: 'valkyrie', label: 'Valkiria', value: side.valkyrieCount * 2 });
+  if (side.manualMod !== 0) mods.push({ id: 'manual', label: 'Ajuste manual', value: side.manualMod });
+  return mods;
+}
+
+function isMedusa(side) { return side.habilidad === 'Wins all ties'; }
+
+function buildSideConfig(side, tableTotal) {
+  return {
+    tableTotal,
+    modifiers: modifiersFor(side),
+    medusa: state.settings.doublesRulesOn && isMedusa(side),
+    berserkActive: state.settings.doublesRulesOn && side.berserkActive,
+  };
+}
+
+// ---------- Dado 3D (CSS puro, sin three.js ni imágenes) ----------
+// Coordenadas (left%, top%) de las 9 posiciones posibles de un pip, en orden de lectura.
+const PIP_COORDS = {
+  1: [20, 20], 2: [50, 20], 3: [80, 20],
+  4: [20, 50], 5: [50, 50], 6: [80, 50],
+  7: [20, 80], 8: [50, 80], 9: [80, 80],
+};
+const PIP_LAYOUT = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
+const FACE_HTML = {};
+for (let v = 1; v <= 6; v++) {
+  FACE_HTML[v] = PIP_LAYOUT[v].map((i) => {
+    const [left, top] = PIP_COORDS[i];
+    return `<span class="die3d-pip" style="left:${left}%;top:${top}%"></span>`;
+  }).join('');
+}
+// Caras opuestas suman 7 (1-6, 2-5, 3-4), como un dado real.
+// Cara de dado plana (sin transforms 3D — robusta en todos los navegadores). Se usa para el
+// estado en reposo (antes y después de tirar) dentro de cada mitad.
+function dieFaceHTML(id, value) {
+  const v = value || 1;
+  const dim = value == null ? 'opacity:.35' : '';
+  return `<div class="die2d" id="${id}" style="${dim}">${FACE_HTML[v]}</div>`;
+}
+
+// ---------- Overlay de colisión de dados (Matter.js, motor de física real) ----------
+// Los 4 dados (2 del color de cada lado) chocan entre sí y contra los bordes de la pantalla
+// durante ~1.3s; el valor final de cada uno ya está decidido de antemano por App.rollDice —
+// la física es puramente visual, nunca decide el resultado.
+function civColorHex(civ) {
+  const varName = '--' + CIV_META[civ].color;
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || '#ebc166';
+}
+
+function runDiceCollision(rolls, onDone) {
+  const overlay = document.getElementById('dice-overlay');
+  overlay.innerHTML = '';
+  const canvas = document.createElement('canvas');
+  const w = window.innerWidth, h = window.innerHeight;
+  canvas.width = w; canvas.height = h;
+  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;';
+  overlay.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  const { Engine, Bodies, Composite, Body, Runner } = Matter;
+  const engine = Engine.create({ gravity: { x: 0, y: 0 } });
+  const size = 56;
+  const wallOpts = { isStatic: true, restitution: 1 };
+  const walls = [
+    Bodies.rectangle(w / 2, -20, w + 80, 40, wallOpts),
+    Bodies.rectangle(w / 2, h + 20, w + 80, 40, wallOpts),
+    Bodies.rectangle(-20, h / 2, 40, h + 80, wallOpts),
+    Bodies.rectangle(w + 20, h / 2, 40, h + 80, wallOpts),
+  ];
+
+  const dice = rolls.map((roll, i) => {
+    const cx = w / 2 + (i < 2 ? -1 : 1) * (60 + Math.random() * 40);
+    const cy = h / 2 + (i % 2 === 0 ? -1 : 1) * (60 + Math.random() * 40);
+    const body = Bodies.rectangle(cx, cy, size, size, {
+      chamfer: { radius: 10 },
+      restitution: 0.75, friction: 0.02, frictionAir: 0.006, density: 0.002,
+    });
+    Body.setVelocity(body, { x: (Math.random() - 0.5) * 26, y: (Math.random() - 0.5) * 26 });
+    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.9);
+    return { body, color: roll.color, finalValue: roll.value, displayValue: 1 + Math.floor(Math.random() * 6) };
+  });
+
+  Composite.add(engine.world, [...walls, ...dice.map((d) => d.body)]);
+  const runner = Runner.create();
+  Runner.run(runner, engine);
+
+  let frame = 0;
+  let raf = null;
+  function drawDie(d) {
+    const { body, color } = d;
+    ctx.save();
+    ctx.translate(body.position.x, body.position.y);
+    ctx.rotate(body.angle);
+    ctx.fillStyle = color;
+    const r = 10, s = size;
+    ctx.beginPath();
+    ctx.moveTo(-s / 2 + r, -s / 2);
+    ctx.arcTo(s / 2, -s / 2, s / 2, s / 2, r);
+    ctx.arcTo(s / 2, s / 2, -s / 2, s / 2, r);
+    ctx.arcTo(-s / 2, s / 2, -s / 2, -s / 2, r);
+    ctx.arcTo(-s / 2, -s / 2, s / 2, -s / 2, r);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+    PIP_LAYOUT[d.displayValue].forEach((idx) => {
+      const [leftPct, topPct] = PIP_COORDS[idx];
+      const px = (leftPct / 100 - 0.5) * s;
+      const py = (topPct / 100 - 0.5) * s;
+      ctx.beginPath();
+      ctx.arc(px, py, s * 0.09, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  function tick() {
+    frame++;
+    ctx.clearRect(0, 0, w, h);
+    if (frame % 6 === 0) {
+      dice.forEach((d) => { d.displayValue = 1 + Math.floor(Math.random() * 6); });
+    }
+    dice.forEach(drawDie);
+    raf = requestAnimationFrame(tick);
+  }
+  tick();
+
+  setTimeout(() => {
+    dice.forEach((d) => { d.displayValue = d.finalValue; });
+    ctx.clearRect(0, 0, w, h);
+    dice.forEach(drawDie);
+    cancelAnimationFrame(raf);
+    Runner.stop(runner);
+    Engine.clear(engine);
+    setTimeout(() => { overlay.innerHTML = ''; onDone(); }, 260);
+  }, 1300);
+}
+
+// ---------- Render raíz ----------
+const topEl = document.getElementById('half-top');
+const bottomEl = document.getElementById('half-bottom');
+const centerEl = document.getElementById('center-strip');
+const overlaysEl = document.getElementById('overlays');
+
+function render() {
+  applyTheme();
+  const single = state.settings.singleView;
+  topEl.classList.toggle('hidden-side', single);
+  bottomEl.innerHTML = renderHalf('A');
+  topEl.innerHTML = single ? '' : renderHalf('B');
+  centerEl.innerHTML = renderCenter();
+  overlaysEl.innerHTML = renderOverlays();
+  persist();
+}
+
+function renderHalf(side) {
+  const p = state.players[side];
+  switch (state.screen) {
+    case 'civ': return renderCivHalf(side, p);
+    case 'unidad': return renderUnidadHalf(side, p);
+    case 'combate': return renderCombateHalf(side, p);
+    default: return '';
+  }
+}
+
+// ---------- Paso 1: elegir civilización ----------
+function renderCivHalf(side, p) {
+  const otherCiv = state.players[otherSide(side)].civ;
+  const tiles = Object.keys(CIV_META).map((civKey) => {
+    const meta = CIV_META[civKey];
+    const selected = p.civ === civKey;
+    const disabled = !selected && otherCiv === civKey;
+    const cls = ['civ-tile'];
+    if (selected) cls.push('selected');
+    if (disabled) cls.push('disabled');
+    const stripe = selected ? `<div class="stripe" style="background:var(--${meta.color})"></div>` : '';
+    const badge = selected
+      ? `<div class="check-badge" style="background:var(--${meta.color});color:var(--on-${meta.color})">${icon('check', 14)}</div>`
+      : disabled
+        ? `<span class="muted">${icon('lock', 18)}</span>`
+        : `<span class="muted" style="opacity:.5">${icon('plus', 16)}</span>`;
+    return `<button class="${cls.join(' ')}" ${disabled ? 'disabled' : ''} onclick="App.selectCiv('${side}','${civKey}')">
+      ${stripe}
+      <div class="row">
+        <div class="ico-box" style="color:var(--${meta.color})">${icon(meta.icon, 22)}</div>
+        <div class="info">
+          <span class="name" style="color:${selected ? `var(--${meta.color})` : 'inherit'}">${meta.label.toUpperCase()}</span>
+          <span class="sub">${disabled ? 'Ocupado por el rival' : meta.sub}</span>
+        </div>
+      </div>
+      ${badge}
+    </button>`;
+  }).join('');
+
+  return `
+    <div class="row-between" style="margin-bottom:10px">
+      <div>
+        <div class="muted label" style="font-size:11px">Jugador ${side === 'A' ? '1' : '2'}</div>
+        <div class="font-display" style="font-size:18px;font-weight:700;color:var(--primary)">Elige tu civilización</div>
+      </div>
+    </div>
+    <div style="flex:1">${tiles}</div>
+    <button class="big-btn" style="margin-top:10px;background:${p.ready ? 'var(--surface-container-high)' : 'var(--primary)'};color:${p.ready ? 'var(--on-surface)' : 'var(--on-primary)'}"
+      ${p.civ ? '' : 'disabled'} onclick="App.toggleCivReady('${side}')">
+      ${icon(p.ready ? 'check' : 'shield', 18)}<span>${p.ready ? 'Listo' : 'Confirmar elección'}</span>
+    </button>`;
+}
+
+// ---------- Paso 2: elegir unidad ----------
+function renderUnidadHalf(side, p) {
+  const meta = CIV_META[p.civ];
+  const units = unitsForCiv(p.civ);
+  const groups = TIPO_ORDER.map((tipo) => {
+    const list = units.filter((u) => u.tipo === tipo);
+    const tm = TIPO_META[tipo];
+    const tiles = list.map((u) => {
+      const selected = p.unidad === u.unidad;
+      const hasAbility = !!u.habilidad;
+      return `<button class="unit-btn ${selected ? 'selected' : ''}"
+        style="${selected ? `background:var(--${meta.color}-container,var(--${meta.color}));color:var(--on-${meta.color})` : ''}"
+        onmousedown="App.startLongPress('${p.civ}','${u.unidad}')" onmouseup="App.cancelLongPress()" onmouseleave="App.cancelLongPress()"
+        ontouchstart="App.startLongPress('${p.civ}','${u.unidad}')" ontouchend="App.cancelLongPress()"
+        onclick="App.selectUnit('${side}','${u.unidad}')">
+        ${hasAbility ? `<span class="ability-dot" style="background:var(--${meta.color})"></span>` : ''}
+        <span class="uname">${u.unidad}</span>
+        <span class="utype"><span class="type-glyph">${tm.glyph}</span>${hasAbility ? '• Habilidad' : tm.label.slice(0, 3)}</span>
+      </button>`;
+    }).join('');
+    return `<div>
+      <div class="group-header"><span class="type-glyph">${tm.glyph}</span>${tm.label}<span class="fill">${tm.sub}</span></div>
+      <div class="unit-grid">${tiles}</div>
+    </div>`;
+  }).join('');
+
+  const mask = state.hiddenSelection && !p.revealed
+    ? `<div class="hidden-mask">
+        ${icon('eyeOff', 34)}
+        <div style="font-weight:700">Selección oculta</div>
+        <div class="muted" style="font-size:12px">Toca para desbloquear y elegir en secreto</div>
+        <button class="big-btn" style="background:var(--surface-container-high);min-height:44px" onclick="App.revealSide('${side}')">Revelar pantalla</button>
+      </div>`
+    : '';
+
+  return `
+    <div style="position:relative;flex:1;display:flex;flex-direction:column;min-height:0">
+      ${mask}
+      <div class="unit-header">
+        <div class="row" style="gap:6px">
+          <span style="width:8px;height:8px;border-radius:999px;background:var(--${meta.color})"></span>
+          <span style="font-weight:700;letter-spacing:.05em;color:var(--${meta.color})">${meta.label.toUpperCase()}</span>
+          <span class="muted" style="font-size:11px">• J${side === 'A' ? '1' : '2'}</span>
+        </div>
+        <div class="unit-badge">${p.unidad ? `<span class="type-glyph">${TIPO_META[p.tipo].glyph}</span>` : ''}<span class="name">${p.unidad || 'Sin elegir'}</span></div>
+      </div>
+      <div style="flex:1;overflow-y:auto">${groups}</div>
+      <button class="big-btn" style="margin-top:8px;background:${p.unitReady ? 'var(--surface-container-high)' : `var(--${meta.color})`};color:${p.unitReady ? 'var(--on-surface)' : `var(--on-${meta.color})`}"
+        ${p.unidad ? '' : 'disabled'} onclick="App.toggleUnitReady('${side}')">
+        ${icon('check', 18)}<span>${p.unitReady ? `${meta.label} listo` : `Confirmar ${meta.label}`}</span>
+      </button>
+    </div>`;
+}
+
+// ---------- Paso 3: combate (incluye el resultado, en la misma pantalla) ----------
+function renderCombateHalf(side, p) {
+  const meta = CIV_META[p.civ];
+  const otherP = state.players[otherSide(side)];
+  const row = getMatchup(p, otherP);
+  if (!row) {
+    return `<div class="warning-banner">No existe un enfrentamiento registrado para esta combinación de unidades.</div>`;
+  }
+  return renderCombateHalfWithTotal(side, p, meta, tableTotalFor(p, otherP));
+}
+
+function tableTotalFor(p, otherP) {
+  // getMatchup(p, otherP) consulta con p como lado "A", así que row.totalA ya es el total de p.
+  const row = getMatchup(p, otherP);
+  if (!row) return null;
+  return row.totalA;
+}
+
+function renderCombateHalfWithTotal(side, p, meta, tableTotal) {
+  const r = state.lastResult;
+  const sideResult = r ? (side === 'A' ? r.a : r.b) : null;
+  const isTie = r && r.winner === 'empate';
+  const isWinner = r && r.winner === side;
+  const isLoser = r && !isTie && !isWinner;
+
+  const cfg = buildSideConfig(p, tableTotal);
+  const modsSum = cfg.modifiers.reduce((s, m) => s + m.value, 0);
+  const projected = tableTotal + modsSum;
+  const otherP = state.players[otherSide(side)];
+
+  const wallOn = p.wall;
+  const canThrow = p.unidad === 'Cyclops';
+  const throwEnabled = canThrow && otherP.wall;
+  const canBerserk = p.berserkBonus > 0;
+  const isHydra = p.unidad === 'Hydra';
+  const isValkyrie = p.unidad === 'Valkyrie';
+
+  const diceArea = `<div class="dice-pair">${dieFaceHTML(`die-${side}-1`, p.die1)}${dieFaceHTML(`die-${side}-2`, p.die2)}</div>`;
+
+  const bigNumber = r ? sideResult.score : tableTotal;
+  const bigLabel = r ? 'Total' : 'Tabla';
+  const subLine = r
+    ? `${sideResult.tableTotal} tabla + ${sideResult.diceSum} dados${sideResult.modifiersSum ? ` + ${sideResult.modifiersSum} mod.` : ''}`
+    : `Puntaje previsto: <strong style="color:var(--${meta.color})">${projected}</strong>`;
+
+  const badge = isTie
+    ? `<div class="result-badge" style="background:var(--surface-container-high)">Empate</div>`
+    : isWinner
+      ? `<div class="result-badge" style="background:var(--${meta.color});color:var(--on-${meta.color})">${icon('medal', 14)}Gana</div>`
+      : isLoser
+        ? `<div class="result-badge" style="background:var(--surface-container-high);color:var(--on-surface-variant)">Derrota</div>`
+        : `<div class="type-pill" style="color:var(--${meta.color})"><span class="type-glyph">${TIPO_META[p.tipo].glyph}</span>${TIPO_META[p.tipo].label.replace(/s$/, '')}</div>`;
+
+  const bottomSection = r
+    ? (isTie ? '' : `<div class="action-grid">
+        <button class="action-btn" onclick="App.sameUnitAgain('${side}')">${icon('replay', 18)}<span class="lbl">Misma unidad</span></button>
+        <button class="action-btn" onclick="App.changeUnit('${side}')">${icon('swap', 18)}<span class="lbl">Cambiar</span></button>
+        <button class="action-btn" onclick="App.retireSide('${side}')">${icon('flag', 18)}<span class="lbl" style="color:var(--error)">Retirada</span></button>
+      </div>`)
+    : `<div class="mods-row">
+        <button class="mod-chip ${wallOn ? 'active' : ''}" style="${wallOn ? `background:var(--${meta.color});color:var(--on-${meta.color})` : ''}" onclick="App.toggleMod('${side}','wall')">${icon('fort', 14)}Muro +2</button>
+        ${canBerserk ? `<button class="mod-chip ${p.berserkActive ? 'active' : ''}" style="${p.berserkActive ? 'background:var(--tertiary);color:var(--on-tertiary)' : ''}" onclick="App.toggleMod('${side}','berserk')">${icon('sword', 14)}Berserk +2</button>` : ''}
+        ${canThrow ? `<button class="mod-chip ${p.throwOn ? 'active' : ''}" style="${p.throwOn ? `background:var(--${meta.color});color:var(--on-${meta.color})` : ''}" ${throwEnabled ? '' : 'disabled'} onclick="App.toggleMod('${side}','throw')">${icon('throw', 14)}Lanzar +3</button>` : ''}
+        ${isHydra ? `<div class="counter-chip">${icon('sword', 12)}<span>Derrotas</span><div class="stepper"><button onclick="App.adjustCounter('${side}','hydraCount',-1)">${icon('minus', 12)}</button><span class="val">${p.hydraCount}</span><button onclick="App.adjustCounter('${side}','hydraCount',1)">${icon('plus', 12)}</button></div></div>` : ''}
+        ${isValkyrie ? `<div class="counter-chip">${icon('sword', 12)}<span>Eliminadas</span><div class="stepper"><button onclick="App.adjustCounter('${side}','valkyrieCount',-1)">${icon('minus', 12)}</button><span class="val">${p.valkyrieCount}</span><button onclick="App.adjustCounter('${side}','valkyrieCount',1)">${icon('plus', 12)}</button></div></div>` : ''}
+        <div class="stepper">
+          <button onclick="App.adjustMod('${side}',-1)">${icon('minus', 14)}</button>
+          <span class="val">${p.manualMod >= 0 ? '+' : ''}${p.manualMod}</span>
+          <button onclick="App.adjustMod('${side}',1)">${icon('plus', 14)}</button>
+        </div>
+      </div>`;
+
+  return `
+    <div class="combat-header">
+      <div class="who">
+        <div>
+          <div class="font-display" style="font-weight:700;font-size:16px;color:var(--${meta.color})">${p.unidad.toUpperCase()}</div>
+          <div class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">${meta.label}</div>
+        </div>
+      </div>
+      ${badge}
+    </div>
+    <div class="score-row" style="${isLoser ? 'opacity:.55' : ''}">
+      <div>
+        <div class="row" style="gap:8px;align-items:baseline">
+          <span class="score-total font-display" style="font-size:64px;color:var(--${meta.color})">${bigNumber}</span>
+          <span class="muted label" style="font-size:11px">${bigLabel}</span>
+        </div>
+        <div class="score-sub">${subLine}</div>
+      </div>
+      ${diceArea}
+    </div>
+    ${bottomSection}`;
+}
+
+// ---------- Centro: según pantalla ----------
+function renderCenter() {
+  switch (state.screen) {
+    case 'civ': return renderCenterCiv();
+    case 'unidad': return renderCenterUnidad();
+    case 'combate': return renderCenterCombate();
+    default: return '';
+  }
+}
+
+function renderCenterCiv() {
+  const bothReady = state.players.A.ready && state.players.B.ready;
+  return `
+    <div style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div class="row" style="gap:6px">
+        ${icon('sword', 15)}
+        <span class="label muted" style="font-size:12px">Combate 2D6</span>
+      </div>
+      <div class="row" style="gap:6px;background:var(--surface-container);padding:2px 10px;border-radius:999px">
+        <span style="width:6px;height:6px;border-radius:999px;background:var(--primary)"></span>
+        <span class="label" style="font-size:10px;color:var(--primary)">Fase 1: Alianzas${bothReady ? ' ✓' : ''}</span>
+      </div>
+      <button class="icon-btn" onclick="App.openSettings()">${icon('gear', 16)}</button>
+    </div>`;
+}
+
+function renderCenterUnidad() {
+  return `
+    <div style="padding:10px 16px">
+      <div class="row-between">
+        <div>
+          <div class="row" style="gap:6px"><span style="color:var(--primary)">${icon('shield', 16)}</span><span class="label" style="font-size:12px">Fase de designación</span></div>
+          <div class="muted" style="font-size:11px">Elige tu unidad para el duelo</div>
+        </div>
+        <div class="row" style="gap:8px">
+          <div style="text-align:right">
+            <div style="font-size:11px;font-weight:600">Selección</div>
+            <div class="muted" style="font-size:10px;text-transform:uppercase">${state.hiddenSelection ? 'Oculta' : 'Pública'}</div>
+          </div>
+          <button class="icon-btn" onclick="App.toggleHiddenSelection()">${icon(state.hiddenSelection ? 'eyeOff' : 'eye', 18)}</button>
+          <button class="icon-btn" onclick="App.openSettings()">${icon('gear', 16)}</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderCenterCombate() {
+  const a = state.players.A, b = state.players.B;
+  const row = getMatchup(a, b);
+  const historyPull = `<div class="history-pull" onclick="App.openHistory()"><div class="bar"></div><div class="row muted" style="gap:4px;font-size:11px;justify-content:center">${icon('history', 14)}Historial de tiradas</div></div>`;
+
+  if (!row) {
+    return `<div style="padding:10px 16px 14px"><div class="warning-banner">Enfrentamiento no disponible: revisa las unidades elegidas.</div>${historyPull}</div>`;
+  }
+
+  const r = state.lastResult;
+
+  if (!r) {
+    const totalA = tableTotalFor(a, b);
+    const totalB = tableTotalFor(b, a);
+    const cfgA = buildSideConfig(a, totalA);
+    const cfgB = buildSideConfig(b, totalB);
+    const prob = enumerateProbabilities(cfgA, cfgB, { tieRule: state.settings.tieRule, defenderSide: state.settings.defenderSide });
+    const pA = prob.pA * 100, pB = prob.pB * 100, pTie = prob.pTie * 100;
+    const probHtml = `
+      <div class="prob-bar">
+        <div class="prob-seg" style="width:${pA}%;background:var(--primary)"></div>
+        <div class="prob-seg" style="width:${pTie}%;background:var(--outline-variant)"></div>
+        <div class="prob-seg" style="width:${pB}%;background:var(--secondary)"></div>
+      </div>
+      <div class="prob-labels">
+        <span style="color:var(--primary);font-weight:700">${a.unidad} ${pA.toFixed(1)}%</span>
+        <span class="muted">Empate ${pTie.toFixed(1)}%</span>
+        <span style="color:var(--secondary);font-weight:700">${b.unidad} ${pB.toFixed(1)}%</span>
+      </div>
+      <div class="prob-effective">Efectivo (repitiendo empates): <strong>${(prob.efectivoA * 100).toFixed(0)}% – ${(prob.efectivoB * 100).toFixed(0)}%</strong></div>`;
+
+    return `
+      <div style="padding:10px 16px 10px">
+        ${probHtml}
+        <div style="padding-top:8px">
+          <button class="roll-trigger" ${rollingAnim ? 'disabled' : ''} onclick="App.rollDice()">${icon('dice', 28)}<span>${rollingAnim ? 'Rodando…' : 'Tirar 2d6'}</span>${icon('dice', 28)}</button>
+        </div>
+        ${historyPull}
+      </div>`;
+  }
+
+  // Hay resultado: se muestra en el mismo lugar de la barra/botón, sin cambiar de pantalla.
+  const winnerName = r.winner === 'empate' ? null : (r.winner === 'A' ? a.unidad : b.unidad);
+  const winnerCiv = r.winner === 'empate' ? null : CIV_META[r.winner === 'A' ? a.civ : b.civ];
+  const headline = r.winner === 'empate' ? 'EMPATE — REPETIR' : `GANA ${winnerName.toUpperCase()} (${winnerCiv.label.toUpperCase()})`;
+  const explainMap = {
+    'dobles': r.reason === 'medusa' ? 'La Medusa petrifica: gana automáticamente al sacar dobles, sin importar el puntaje.' : 'El lado en Berserk pierde automáticamente al sacar dobles: el efecto contrario decide el combate.',
+    'puntaje': 'Gana el lado con el puntaje total más alto (tabla + dados + modificadores).',
+    'empate-habilidad': r.reason === 'medusa' ? 'Puntajes iguales: la Medusa gana todos los empates de puntaje por su naturaleza pétrea.' : 'Puntajes iguales: el lado en Berserk pierde todos los empates, así que el rival se lleva la victoria.',
+    'empate-defensor': 'Empate real, resuelto por el ajuste de mesa: el defensor gana los empates.',
+    'empate-real': 'Empate real: ninguna regla especial decide el resultado. Se repite la tirada solo entre estas dos unidades.',
+  };
+  const explain = explainMap[r.rule] || '';
+  const winnerColor = winnerCiv ? `var(--${winnerCiv.color})` : 'var(--on-surface)';
+
+  const actionsHtml = r.winner === 'empate'
+    ? `<button class="roll-trigger" style="min-height:64px;font-size:15px" onclick="App.repeatTie()">${icon('dice', 22)}Repetir tirada</button>`
+    : `<div class="row" style="justify-content:space-between;gap:8px;margin-top:8px">
+        <button class="action-btn" style="flex:1;min-height:40px;flex-direction:row" onclick="App.undoLast()">${icon('undo', 16)}<span class="lbl">Deshacer</span></button>
+        <button class="action-btn" style="flex:1;min-height:40px;flex-direction:row" onclick="App.endCombat()">${icon('flag', 16)}<span class="lbl">Fin combate</span></button>
+      </div>`;
+
+  return `
+    <div style="padding:8px 16px 10px">
+      <div class="result-center-line" style="transform:rotate(180deg);color:${winnerColor}">${icon('sword', 14)}${headline}${icon('sword', 14)}</div>
+      <div class="row" style="justify-content:center;gap:10px;margin:4px 0">
+        <div style="flex:1;height:1px;background:var(--outline-variant)"></div>
+        <span style="color:var(--primary)">${icon('sword', 16)}</span>
+        <div style="flex:1;height:1px;background:var(--outline-variant)"></div>
+      </div>
+      <div class="result-center-line" style="color:${winnerColor}">${icon('crown', 14)}${headline}${icon('crown', 14)}</div>
+      <div class="rule-toggle"><button onclick="App.toggleRuleExplain()">${state.ruleExpanded ? 'Ocultar explicación' : '¿Por qué se resolvió así?'}</button></div>
+      ${state.ruleExpanded ? `<div class="rule-explain">${explain}</div>` : ''}
+      ${actionsHtml}
+      ${historyPull}
+    </div>`;
+}
+
+// ---------- Overlays: historial y ajustes ----------
+function renderOverlays() {
+  let html = '';
+  if (state.drawerOpen) html += renderHistoryDrawer();
+  if (state.settingsOpen) html += renderSettingsModal();
+  if (state.abilityCard) html += renderAbilityCard();
+  return html;
+}
+
+function renderHistoryDrawer() {
+  const items = state.history.slice().reverse().map((h, i) => `
+    <div class="history-item">
+      <div class="row-between"><strong>#${state.history.length - i}</strong><span class="num">${h.regla}</span></div>
+      <div>${h.unidadA} (${h.puntajeA}) vs ${h.unidadB} (${h.puntajeB}) — ${h.resultado}</div>
+    </div>`).join('') || `<div class="muted" style="padding:20px 0;text-align:center">Sin tiradas todavía.</div>`;
+  return `<div class="drawer">
+    <div class="backdrop" onclick="App.closeHistory()"></div>
+    <div class="sheet">
+      <div class="row-between" style="margin-bottom:8px">
+        <strong>Historial de tiradas</strong>
+        <button class="icon-btn" onclick="App.closeHistory()">${icon('close', 14)}</button>
+      </div>
+      ${items}
+      ${state.history.length ? `<button class="big-btn" style="margin-top:10px;background:var(--surface-container-high)" onclick="App.clearHistory()">Limpiar</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderSettingsModal() {
+  const s = state.settings;
+  const seg = (options, current, onclick) => `<div class="segmented">${options.map(([val, label]) => `<button class="${current === val ? 'active' : ''}" onclick="${onclick}('${val}')">${label}</button>`).join('')}</div>`;
+  const sw = (on, onclick) => `<button class="switch ${on ? 'on' : ''}" onclick="${onclick}"><span class="knob"></span></button>`;
+  return `<div class="modal">
+    <div class="backdrop" onclick="App.closeSettings()"></div>
+    <div class="sheet">
+      <div class="row-between" style="margin-bottom:10px">
+        <strong style="font-size:16px">Ajustes de mesa</strong>
+        <button class="icon-btn" onclick="App.closeSettings()">${icon('close', 14)}</button>
+      </div>
+      <div class="settings-section">
+        <h3>Reglas de mesa</h3>
+        <div class="settings-row stacked"><span>Resolución de empate</span>${seg([['repetir', 'Repetir'], ['defensor', 'Gana defensor']], s.tieRule, 'App.setTieRule')}</div>
+        <div class="settings-row"><span>Reglas de dobles (Medusa / Berserker)</span>${sw(s.doublesRulesOn, "App.toggleSetting('doublesRulesOn')")}</div>
+        <div class="settings-row"><span>Vista de un solo lado</span>${sw(s.singleView, "App.toggleSetting('singleView')")}</div>
+      </div>
+      <div class="settings-section">
+        <h3>Experiencia sensorial</h3>
+        <div class="settings-row"><span>Respuesta háptica</span>${sw(s.haptics, "App.toggleSetting('haptics')")}</div>
+        <div class="settings-row"><span>Sonido de dados</span>${sw(s.sound, "App.toggleSetting('sound')")}</div>
+        <div class="settings-row"><span>Tiradas instantáneas</span>${sw(s.instantRolls, "App.toggleSetting('instantRolls')")}</div>
+      </div>
+      <div class="settings-section">
+        <h3>Apariencia</h3>
+        <div class="settings-row stacked"><span>Tema</span>${seg([['oscuro', 'Oscuro'], ['claro', 'Claro'], ['auto', 'Auto']], s.theme, 'App.setTheme')}</div>
+      </div>
+      <button class="big-btn" style="background:var(--primary);color:var(--on-primary)" onclick="App.closeSettings()">Guardar y volver</button>
+      <div class="muted" style="text-align:center;font-size:11px;margin-top:8px">Combate 2d6 • Reglas oficiales AoM Boardgame</div>
+    </div>
+  </div>`;
+}
+
+function renderAbilityCard() {
+  const u = state.abilityCard;
+  return `<div class="modal">
+    <div class="backdrop" onclick="App.closeAbilityCard()"></div>
+    <div class="sheet" style="max-height:40vh">
+      <div class="row-between" style="margin-bottom:8px">
+        <strong>${u.unidad}</strong>
+        <button class="icon-btn" onclick="App.closeAbilityCard()">${icon('close', 14)}</button>
+      </div>
+      <div class="muted" style="font-size:13px">${u.habilidad || 'Sin habilidad especial más allá de su valor de tabla.'}</div>
+    </div>
+  </div>`;
+}
+
+// ---------- Acciones ----------
+const App = {
+  selectCiv(side, civ) {
+    const other = state.players[otherSide(side)];
+    if (other.civ === civ) return;
+    state.players[side].civ = civ;
+    render();
+  },
+  toggleCivReady(side) {
+    const p = state.players[side];
+    if (!p.civ) return;
+    p.ready = !p.ready;
+    if (state.players.A.ready && state.players.B.ready) {
+      state.screen = 'unidad';
+      state.players.A.revealed = false;
+      state.players.B.revealed = false;
+    }
+    render();
+  },
+  selectUnit(side, unidad) {
+    const p = state.players[side];
+    const u = findUnit(p.civ, unidad);
+    if (!u) return;
+    p.unidad = u.unidad; p.tipo = u.tipo; p.habilidad = u.habilidad; p.berserkBonus = u.berserk_bonus;
+    render();
+  },
+  toggleUnitReady(side) {
+    const p = state.players[side];
+    if (!p.unidad) return;
+    p.unitReady = !p.unitReady;
+    if (state.players.A.unitReady && state.players.B.unitReady) {
+      state.screen = 'combate';
+      state.lastResult = null;
+      state.players.A.die1 = state.players.A.die2 = null;
+      state.players.B.die1 = state.players.B.die2 = null;
+    }
+    render();
+  },
+  toggleHiddenSelection() { state.hiddenSelection = !state.hiddenSelection; if (!state.hiddenSelection) { state.players.A.revealed = true; state.players.B.revealed = true; } render(); },
+  revealSide(side) { state.players[side].revealed = true; render(); },
+  _longPressTimer: null,
+  startLongPress(civ, unidad) {
+    App._longPressTimer = setTimeout(() => { state.abilityCard = findUnit(civ, unidad); render(); }, 300);
+  },
+  cancelLongPress() { clearTimeout(App._longPressTimer); },
+  closeAbilityCard() { state.abilityCard = null; render(); },
+
+  toggleMod(side, key) {
+    const p = state.players[side];
+    if (key === 'wall') p.wall = !p.wall;
+    if (key === 'throw') { if (!state.players[otherSide(side)].wall) return; p.throwOn = !p.throwOn; }
+    if (key === 'berserk') p.berserkActive = !p.berserkActive;
+    render();
+  },
+  adjustMod(side, delta) {
+    const p = state.players[side];
+    p.manualMod = Math.max(-3, Math.min(3, p.manualMod + delta));
+    render();
+  },
+  adjustCounter(side, key, delta) {
+    const p = state.players[side];
+    p[key] = Math.max(0, p[key] + delta);
+    render();
+  },
+  rollDice() {
+    if (rollingAnim) return;
+    const a = state.players.A, b = state.players.B;
+    const row = getMatchup(a, b);
+    if (!row) return;
+    const rand6 = () => Math.floor(Math.random() * 6) + 1;
+    const finalA1 = rand6(), finalA2 = rand6(), finalB1 = rand6(), finalB2 = rand6();
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const skipAnim = state.settings.instantRolls || reducedMotion || typeof Matter === 'undefined';
+
+    vibrate(30);
+    playDiceSound();
+
+    const land = () => {
+      a.die1 = finalA1; a.die2 = finalA2; b.die1 = finalB1; b.die2 = finalB2;
+      resolveAndShow();
+    };
+
+    if (skipAnim) { land(); return; }
+
+    rollingAnim = true;
+    render(); // dibuja los dados reales atenuados/en reposo (quedan "debajo" del overlay)
+    const colorA = civColorHex(a.civ), colorB = civColorHex(b.civ);
+    runDiceCollision(
+      [
+        { value: finalA1, color: colorA }, { value: finalA2, color: colorA },
+        { value: finalB1, color: colorB }, { value: finalB2, color: colorB },
+      ],
+      () => { rollingAnim = false; land(); }
+    );
+  },
+  repeatTie() {
+    state.lastResult = null; state.ruleExpanded = false;
+    state.players.A.die1 = state.players.A.die2 = null;
+    state.players.B.die1 = state.players.B.die2 = null;
+    render();
+  },
+  toggleRuleExplain() { state.ruleExpanded = !state.ruleExpanded; render(); },
+  undoLast() {
+    if (!state.undoSnapshot) return;
+    state.players = state.undoSnapshot.players;
+    state.lastResult = null;
+    state.history.pop();
+    state.undoSnapshot = null;
+    render();
+  },
+  sameUnitAgain(side) {
+    state.lastResult = null; state.ruleExpanded = false;
+    state.players.A.die1 = state.players.A.die2 = null;
+    state.players.B.die1 = state.players.B.die2 = null;
+    render();
+  },
+  changeUnit(side) {
+    state.players[side].unitReady = false;
+    state.players[side].wall = false; state.players[side].throwOn = false; state.players[side].berserkActive = false; state.players[side].manualMod = 0;
+    state.screen = 'unidad';
+    state.lastResult = null; state.ruleExpanded = false;
+    render();
+  },
+  retireSide(side) {
+    state.players[side].retired = true;
+    App.endCombat();
+  },
+  endCombat() {
+    state.screen = 'civ';
+    state.players = { A: freshPlayer(), B: freshPlayer() };
+    state.lastResult = null; state.ruleExpanded = false; state.undoSnapshot = null;
+    render();
+  },
+  openHistory() { state.drawerOpen = true; render(); },
+  closeHistory() { state.drawerOpen = false; render(); },
+  clearHistory() { state.history = []; render(); },
+  openSettings() { state.settingsOpen = true; render(); },
+  closeSettings() { state.settingsOpen = false; render(); },
+  setTieRule(v) { state.settings.tieRule = v; render(); },
+  setTheme(v) { state.settings.theme = v; render(); },
+  toggleSetting(key) { state.settings[key] = !state.settings[key]; render(); },
+};
+window.App = App;
+
+function resolveAndShow() {
+  const a = state.players.A, b = state.players.B;
+  const totalA = tableTotalFor(a, b), totalB = tableTotalFor(b, a);
+  const cfgA = Object.assign({ die1: a.die1, die2: a.die2 }, buildSideConfig(a, totalA));
+  const cfgB = Object.assign({ die1: b.die1, die2: b.die2 }, buildSideConfig(b, totalB));
+  state.undoSnapshot = { players: JSON.parse(JSON.stringify(state.players)) };
+  const result = resolveCombat(cfgA, cfgB, { tieRule: state.settings.tieRule, defenderSide: state.settings.defenderSide });
+  state.lastResult = result;
+  state.ruleExpanded = false;
+  if (result.winner === 'A' && a.unidad === 'Hydra') a.hydraCount += 1;
+  if (result.winner === 'B' && b.unidad === 'Hydra') b.hydraCount += 1;
+  if (result.winner === 'A' && a.unidad === 'Valkyrie') a.valkyrieCount += 1;
+  if (result.winner === 'B' && b.unidad === 'Valkyrie') b.valkyrieCount += 1;
+  if (result.winner !== 'empate') {
+    state.history.push({
+      unidadA: a.unidad, unidadB: b.unidad,
+      puntajeA: result.a.score, puntajeB: result.b.score,
+      resultado: result.winner === 'A' ? `Gana ${a.unidad}` : `Gana ${b.unidad}`,
+      regla: result.rule,
+    });
+  }
+  render();
+}
+
+// ---------- Registro de Service Worker (PWA offline) ----------
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* sin SW seguimos funcionando online */ });
+  });
+}
+
+requestWakeLock();
+render();
+
+</script>
+<script>
+  // Bloqueo de doble-tap-zoom y pull-to-refresh (además de touch-action/overscroll-behavior en CSS).
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+  document.addEventListener('gesturestart', (e) => e.preventDefault());
+</script>
+</body>
+</html>

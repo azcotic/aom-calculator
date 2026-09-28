@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_blank" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Noto+Serif:wght@600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#f0e0d0",
+            "outline-variant": "#d3c4af",
+            "on-error": "#ffffff",
+            "tertiary-container": "#007abc",
+            "tertiary": "#006096",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#fdfcff",
+            "secondary": "#1b6d24",
+            "surface-container-high": "#f5e6d6",
+            "on-primary": "#ffffff",
+            "primary": "#785600",
+            "burnished-gold": "#B8860B",
+            "parchment": "#F6EFE2",
+            "parchment-card": "#FFFBF5",
+            "parchment-dark": "#ECE1CE",
+            "parchment-trench": "#EFE6D6",
+            "error": "#ba1a1a",
+            "outline": "#817563",
+            "surface": "#F6EFE2",
+            "background": "#F6EFE2",
+            "on-surface-variant": "#5a5043",
+            "on-surface": "#251D14"
+          },
+          fontFamily: {
+            "serif-display": ["Domine", "Noto Serif", "serif"],
+            "body": ["Work Sans", "Inter", "sans-serif"],
+            "label": ["Space Grotesk", "Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #F6EFE2;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#F6EFE2] text-[#251D14] antialiased min-h-screen w-full flex flex-col">
+<main class="flex-1 flex flex-col w-full min-h-screen bg-[#F6EFE2] relative">
+<div class="flex flex-col w-full max-w-[420px] mx-auto min-h-screen relative overflow-hidden select-none bg-[#F6EFE2] border-x border-[#E3D6C1]/60 shadow-xl justify-between">
+<!-- Atmospheric Parchment Subtle Speckle Background -->
+<div class="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#8E7345_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#ECE2D0]/50 via-transparent to-[#ECE2D0]/60"></div>
+<!-- ================= TOP HALF: GRIEGOS (CENTAUR) - ROTATED 180° ================= -->
+<div class="relative w-full px-4 pt-4 pb-2 flex flex-col justify-between [transform:rotate(180deg)] opacity-60 transition-opacity duration-300">
+<!-- Faction Header & DERROTA Badge -->
+<div class="flex items-center justify-between bg-[#EFE4D2]/85 border border-[#D8C7AE] px-3.5 py-2 rounded-xl shadow-sm">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#E2D2BC]/70 border border-[#CEBC9F] flex items-center justify-center text-[#1b6d24] shadow-xs">
+<span class="material-symbols-outlined text-[20px]">local_florist</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-['Space_Grotesk'] text-[12px] text-[#1b6d24] uppercase font-bold tracking-wider">Griegos</span>
+<span class="w-1 h-1 rounded-full bg-[#A89884]"></span>
+<span class="font-['Space_Grotesk'] text-[12px] text-[#635747] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px] text-[#1b6d24]">diamond</span> Mítico
+                </span>
+</div>
+<span class="font-['Domine'] text-[18px] font-bold text-[#2C2318] tracking-wide leading-tight">Centauro</span>
+</div>
+</div>
+<div class="px-3 py-1 bg-[#DECFBA] border border-[#C5B39B] rounded-lg">
+<span class="font-['Space_Grotesk'] text-[11px] font-bold text-[#6D5E4A] tracking-wider uppercase">Derrota</span>
+</div>
+</div>
+<!-- Tactical Battle Readout: Dice & Calculation -->
+<div class="my-2 flex items-center justify-between bg-[#EAE0CD]/90 border border-[#D5C4AA] px-4 py-2.5 rounded-xl shadow-inner">
+<!-- 2d6 Dice Tray -->
+<div class="flex items-center gap-2.5">
+<!-- Dice 1 (Value: 2) -->
+<div class="w-12 h-12 bg-[#25201A] border border-[#1A1612] rounded-xl flex items-center justify-center shadow-md p-2">
+<div class="w-full h-full flex flex-col justify-between">
+<div class="flex justify-start"><span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span></div>
+<div class="flex justify-end"><span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span></div>
+</div>
+</div>
+<!-- Dice 2 (Value: 6) -->
+<div class="w-12 h-12 bg-[#25201A] border border-[#1A1612] rounded-xl flex items-center justify-center shadow-md p-2">
+<div class="w-full h-full grid grid-cols-2 gap-1 place-items-center">
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+<span class="w-2 h-2 rounded-full bg-[#62C969] shadow-xs"></span>
+</div>
+</div>
+</div>
+<!-- Tactical Calculation Breakdown -->
+<div class="flex flex-col items-end">
+<span class="font-['Work_Sans'] text-[13px] text-[#635747] font-medium">5 tabla + 8 dados</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-['Domine'] text-[15px] font-bold text-[#7E705D]">Total</span>
+<span class="font-['Domine'] text-[32px] font-bold text-[#2C2318] leading-none">13</span>
+</div>
+</div>
+</div>
+<!-- Tactical Actions (Top Player Reachable) -->
+<div class="grid grid-cols-3 gap-2 mt-1">
+<button class="py-2.5 px-1 bg-[#FAF4EA] hover:bg-[#F3EAD9] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#D5C4AA] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#785600]">replay</span>
+<span class="font-['Space_Grotesk'] text-[12px] text-[#332A1F] font-semibold text-center line-clamp-1">Misma unidad</span>
+</button>
+<button class="py-2.5 px-1 bg-[#FAF4EA] hover:bg-[#F3EAD9] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#D5C4AA] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#635747]">swap_horiz</span>
+<span class="font-['Space_Grotesk'] text-[12px] text-[#332A1F] font-semibold text-center line-clamp-1">Cambiar</span>
+</button>
+<button class="py-2.5 px-1 bg-[#FAF4EA] hover:bg-[#F3EAD9] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#D5C4AA] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#A82626]">flag</span>
+<span class="font-['Space_Grotesk'] text-[12px] text-[#A82626] font-semibold text-center line-clamp-1">Retirada</span>
+</button>
+</div>
+</div>
+<!-- ================= NEUTRAL TRENCH: DUAL-FACING CENTER STRIP ================= -->
+<div class="relative w-full z-10 bg-[#EDE2CE] border-y-2 border-[#D4BF9A] shadow-md py-2.5 px-4 flex flex-col items-center justify-center my-1">
+<!-- North Perspective (Rotated for Opponent) with Laurel/Icon -->
+<div class="w-full flex items-center justify-center gap-2 [transform:rotate(180deg)] opacity-85 mb-0.5">
+<span class="material-symbols-outlined text-[#B8860B] text-[16px]">military_tech</span>
+<span class="font-['Domine'] text-[14px] text-[#754E00] uppercase tracking-widest text-center font-bold">Gana Anubite (Egipto)</span>
+<span class="material-symbols-outlined text-[#B8860B] text-[16px]">military_tech</span>
+</div>
+<!-- Central Plinth with Ornate Bronze/Gold Swords Divider -->
+<div class="w-full flex items-center justify-between gap-3 py-1">
+<div class="flex-1 h-[1.5px] bg-gradient-to-r from-transparent via-[#B8860B]/70 to-transparent"></div>
+<div class="w-7 h-7 rounded-full bg-[#FAF3E7] border border-[#B8860B]/60 flex items-center justify-center text-[#946A00] shadow-sm">
+<span class="material-symbols-outlined text-[16px]">swords</span>
+</div>
+<div class="flex-1 h-[1.5px] bg-gradient-to-r from-transparent via-[#B8860B]/70 to-transparent"></div>
+</div>
+<!-- South Perspective (Upright for Victor/Bottom Player) -->
+<div class="w-full flex items-center justify-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[#B8860B] text-[17px]">crown</span>
+<span class="font-['Domine'] text-[15px] text-[#754E00] uppercase tracking-wider text-center font-bold">Victoria: Anubite</span>
+<span class="material-symbols-outlined text-[#B8860B] text-[17px]">crown</span>
+</div>
+<!-- Shared Trench Actions (Deshacer / Fin combate) -->
+<div class="flex items-center justify-between w-full mt-2.5 gap-2.5">
+<button class="flex-1 py-2 px-3 bg-[#FAF4EA] hover:bg-[#F3EADB] active:scale-95 transition rounded-xl flex items-center justify-center gap-1.5 border border-[#CBB89A] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[17px] text-[#554734]">undo</span>
+<span class="font-['Space_Grotesk'] text-[13px] font-semibold text-[#382C1D]">Deshacer</span>
+</button>
+<button class="flex-1 py-2 px-3 bg-[#FAF4EA] hover:bg-[#F3EADB] active:scale-95 transition rounded-xl flex items-center justify-center gap-1.5 border border-[#B8860B] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[17px] text-[#785600] font-bold">done_all</span>
+<span class="font-['Space_Grotesk'] text-[13px] font-bold text-[#382C1D]">Fin combate</span>
+</button>
+</div>
+</div>
+<!-- ================= BOTTOM HALF: EGIPTO (ANUBITE) - UPRIGHT VICTOR ================= -->
+<div class="relative w-full px-4 pt-1 pb-3 flex flex-col justify-between flex-1">
+<!-- Radiant Victorious Banner Frame: Glowing Ivory Parchment with Burnished Gold Border -->
+<div class="relative rounded-2xl bg-[#FFFBF5] border-2 border-[#B8860B] p-3 shadow-lg overflow-hidden">
+<!-- Warm Gold Ambient Glow -->
+<div class="absolute -right-8 -top-8 w-36 h-36 bg-[#F5DE9C]/35 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Faction Header & Victorious Gold Crown Badge -->
+<div class="flex items-center justify-between bg-[#F7EEDF] border border-[#DECDB3] px-3.5 py-2 rounded-xl shadow-xs">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-[#EADBBE] border border-[#B8860B]/40 flex items-center justify-center text-[#875D00] shadow-xs">
+<span class="material-symbols-outlined text-[22px]">brightness_7</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-['Space_Grotesk'] text-[12px] text-[#875D00] uppercase font-bold tracking-wider">Egipto</span>
+<span class="w-1 h-1 rounded-full bg-[#A89884]"></span>
+<span class="font-['Space_Grotesk'] text-[12px] text-[#635747] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px] text-[#B8860B]">diamond</span> Mítico
+                  </span>
+</div>
+<span class="font-['Domine'] text-[20px] font-bold text-[#231A0F] tracking-wide leading-tight">Anubite</span>
+</div>
+</div>
+<!-- Distinct Burnished Gold GANA Crown Badge -->
+<div class="px-3.5 py-1.5 bg-gradient-to-r from-[#C99616] to-[#B8860B] text-[#FFFDF8] rounded-xl flex items-center gap-1.5 shadow-sm border border-[#9A6F06]">
+<span class="material-symbols-outlined text-[17px]">crown</span>
+<span class="font-['Space_Grotesk'] text-[13px] font-bold uppercase tracking-wider">Gana</span>
+</div>
+</div>
+<!-- Tactical Battle Readout: Crisp Dark Dice & Calculation -->
+<div class="my-2.5 flex items-center justify-between bg-[#F4E9D8] border border-[#DECFB7] px-4 py-3 rounded-xl shadow-inner">
+<!-- 2d6 Crisp Dark Dice with Gold Pips (Values: 4 and 3) -->
+<div class="flex items-center gap-3">
+<!-- Dice 1 (Value: 4) -->
+<div class="w-14 h-14 bg-[#1F1912] border-2 border-[#382F24] rounded-xl flex items-center justify-center shadow-md p-2.5">
+<div class="w-full h-full grid grid-cols-2 gap-2 place-items-center">
+<span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span>
+</div>
+</div>
+<!-- Dice 2 (Value: 3) -->
+<div class="w-14 h-14 bg-[#1F1912] border-2 border-[#382F24] rounded-xl flex items-center justify-center shadow-md p-2.5">
+<div class="w-full h-full flex flex-col justify-between">
+<div class="flex justify-start"><span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span></div>
+<div class="flex justify-center"><span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span></div>
+<div class="flex justify-end"><span class="w-2.5 h-2.5 rounded-full bg-[#F3CA68] shadow-[0_0_4px_#C99616]"></span></div>
+</div>
+</div>
+</div>
+<!-- Titan Score Output: '9 tabla + 7 dados' and 'TOTAL 16' -->
+<div class="flex flex-col items-end">
+<span class="font-['Work_Sans'] text-[14px] text-[#5A4F40] font-medium">9 tabla + 7 dados</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-['Domine'] text-[18px] font-bold text-[#946A00] uppercase tracking-wide">Total</span>
+<span class="font-['Domine'] text-[46px] font-bold text-[#8C6200] leading-none drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">16</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons for Winner: Warm Parchment with Bronze Borders -->
+<div class="grid grid-cols-3 gap-2 mt-2">
+<button class="py-3 px-1.5 bg-[#FAF4EA] hover:bg-[#F3EADB] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#B8860B]/70 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#785600] font-semibold">replay</span>
+<span class="font-['Space_Grotesk'] text-[13px] text-[#2C2318] font-bold text-center line-clamp-1">Misma unidad</span>
+</button>
+<button class="py-3 px-1.5 bg-[#FAF4EA] hover:bg-[#F3EADB] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#D5C4AA] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#554734]">swap_horiz</span>
+<span class="font-['Space_Grotesk'] text-[13px] text-[#2C2318] font-bold text-center line-clamp-1">Cambiar</span>
+</button>
+<button class="py-3 px-1.5 bg-[#FAF4EA] hover:bg-[#F3EADB] active:scale-95 transition rounded-xl flex flex-col items-center justify-center gap-1 border border-[#D5C4AA] shadow-xs" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#7D705E]">flag</span>
+<span class="font-['Space_Grotesk'] text-[13px] text-[#7D705E] font-bold text-center line-clamp-1">Retirada</span>
+</button>
+</div>
+</div>
+<!-- Subtle Parchment Bottom Drawer Handle: HISTORIAL DE TIRADAS -->
+<div class="w-full flex flex-col items-center justify-center pt-2.5 pb-2 cursor-pointer group active:opacity-75 transition">
+<div class="w-12 h-1.5 bg-[#CEBD9F] rounded-full group-hover:bg-[#B8A484] transition mb-1.5"></div>
+<div class="flex items-center gap-1.5 text-[#6B5E4D] group-hover:text-[#875D00] transition">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span class="font-['Space_Grotesk'] text-[11px] tracking-wider uppercase font-bold">Historial de tiradas</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

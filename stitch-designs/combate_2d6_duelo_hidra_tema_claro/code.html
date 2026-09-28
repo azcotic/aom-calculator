@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="es" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Domine:wght@600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;height:100%;margin:0;padding:0;background-color:#F6EFE2;color:#2A2218;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "parchment-bg": "#F6EFE2",
+        "parchment-surface": "#EDE4D3",
+        "parchment-card": "#E4D9C4",
+        "parchment-border": "#C8BC9F",
+        "parchment-trench": "#E2D6C0",
+        "text-primary": "#2A2218",
+        "text-muted": "#5C4F40",
+        "egypt-gold": "#A6761D",
+        "egypt-gold-bright": "#B8860B",
+        "greek-emerald": "#2E7D32",
+        "greek-emerald-dark": "#1B5E20"
+      },
+      fontFamily: {
+        "domine": ["Domine", "serif"],
+        "grotesk": ["Space Grotesk", "sans-serif"],
+        "sans": ["Work Sans", "sans-serif"]
+      }
+    }
+  }
+};</script></head><body class="bg-[#F6EFE2] text-[#2A2218] antialiased flex items-center justify-center min-h-screen"><main class="relative w-full max-w-[390px] h-[844px] max-h-screen bg-[#F6EFE2] flex flex-col justify-between overflow-hidden shadow-[0_10px_40px_rgba(42,34,24,0.18)] border border-[#C8BC9F]"><div class="flex flex-col w-full h-[844px] justify-between relative overflow-hidden select-none bg-[#F6EFE2]">
+<!-- Ambient Parchment Texture Layer -->
+<div class="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_center,_rgba(166,118,29,0.08)_0%,_rgba(246,239,226,0)_70%)]"></div>
+<!-- ========================================== -->
+<!-- PLAYER 2 (UPPER HALF - GREECE) ROTATED 180° -->
+<!-- ========================================== -->
+<div class="relative w-full h-[352px] flex flex-col justify-between px-4 pt-3 pb-2 rotate-180 bg-gradient-to-b from-[#F2EADB] via-[#ECE2D0] to-[#E5DBC5] border-b border-[#C8BC9F]/60 transition-all">
+<!-- Faction & Unit Header -->
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-[#2E7D32]/15 border border-[#2E7D32]/30 flex items-center justify-center text-[#2E7D32] shadow-sm"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">water_drop</span></div><div class="flex flex-col"><span class="font-domine text-[18px] text-[#1B5E20] font-bold tracking-wider leading-none">HIDRA</span><span class="font-grotesk text-[#2E7D32] tracking-widest text-[11px] font-semibold uppercase">Griegos</span></div></div>
+<!-- Unit Class Badge: Diamond / Mítico -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E0D4BE] border border-[#C8BC9F] shadow-sm">
+<span class="w-2.5 h-2.5 rotate-45 bg-[#2E7D32] block shadow-[0_0_6px_rgba(46,125,50,0.4)]"></span>
+<span class="font-grotesk text-[#1B5E20] text-[11px] font-bold tracking-wider uppercase">Mítico</span>
+</div>
+</div>
+<!-- Core Titan Score Section -->
+<div class="flex items-center justify-between my-auto px-1"><div class="flex flex-col"><div class="flex items-baseline gap-2"><span class="font-domine text-[#2E7D32] font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(46,125,50,0.15)]" id="p2-base-score" style="font-size: 104px; line-height: 0.9;">7</span><span class="font-grotesk text-[#5C4F40] font-bold tracking-widest uppercase text-xs">TABLA</span></div><div class="flex items-center gap-1.5 text-[#5C4F40]"><span class="font-sans text-xs">Puntaje previsto:</span><span class="font-domine text-[18px] text-[#1B5E20] font-bold" id="p2-projected">9</span></div></div><div class="flex items-center gap-2"><div class="w-[52px] h-[52px] rounded-lg bg-[#E4D9C4] border border-[#C8BC9F] flex items-center justify-center text-[#5C4F40]/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" id="p2-die-1"><span class="material-symbols-outlined text-[28px]">casino</span></div><div class="w-[52px] h-[52px] rounded-lg bg-[#E4D9C4] border border-[#C8BC9F] flex items-center justify-center text-[#5C4F40]/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" id="p2-die-2"><span class="material-symbols-outlined text-[28px]">casino</span></div></div></div>
+<!-- Modifiers & Stepper Row -->
+<div class="flex items-center justify-between gap-2 pt-1"><div class="flex items-center gap-1.5"><button class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#C8BC9F] bg-[#EAE0CD] active:scale-95 transition-all text-[#5C4F40] shadow-sm" id="p2-wall-btn" onclick="toggleWall('p2')"><span class="material-symbols-outlined text-[15px] opacity-80">fort</span><span class="font-grotesk text-[11px] font-semibold">Muro +2</span></button><div class="flex items-center rounded-lg border border-[#2E7D32]/40 bg-[#2E7D32]/10 px-2 py-1 shadow-sm"><span class="material-symbols-outlined text-[15px] text-[#2E7D32] mr-1">skull</span><span class="font-grotesk text-[#1B5E20] text-[11px] font-semibold mr-1">Derrotas:</span><button class="w-5 h-5 rounded bg-transparent flex items-center justify-center text-[#2E7D32] hover:text-[#1B5E20] active:scale-95 transition-transform"><span class="material-symbols-outlined text-[14px]">remove</span></button><span class="w-4 text-center font-grotesk text-[#1B5E20] font-bold text-xs" id="p2-hydra-heads">2</span><button class="w-5 h-5 rounded bg-transparent flex items-center justify-center text-[#2E7D32] hover:text-[#1B5E20] active:scale-95 transition-transform"><span class="material-symbols-outlined text-[14px]">add</span></button></div></div><div class="flex items-center gap-1"><span class="font-sans text-[10px] text-[#2E7D32] font-semibold tracking-tight">+1 por unidad derrotada</span></div></div>
+</div>
+<!-- ========================================== -->
+<!-- SHARED CENTRAL TRENCH (PARCHMENT / MARBLE) -->
+<!-- ========================================== -->
+<div class="relative z-20 w-full bg-[#ECE2D0] border-y border-[#C8BC9F] shadow-[0_4px_16px_rgba(42,34,24,0.08)] px-4 py-2 flex flex-col justify-between">
+<!-- Toggle: Digital vs Physical Dice -->
+<div class="flex items-center justify-between pb-1.5">
+<div class="inline-flex p-0.5 rounded-full bg-[#E0D4BE] border border-[#C8BC9F] mx-auto shadow-inner">
+<button class="px-3 py-1 rounded-full text-[11px] font-grotesk font-bold transition-all bg-[#B8860B] text-white shadow-sm" id="mode-digital" onclick="setDiceMode('digital')">
+          Dados de Pantalla
+        </button>
+<button class="px-3 py-1 rounded-full text-[11px] font-grotesk text-[#5C4F40] transition-all hover:text-[#2A2218]" id="mode-physical" onclick="setDiceMode('physical')">
+          Dados Físicos
+        </button>
+</div>
+</div>
+<!-- Triple-segment Combat Odds Bar -->
+<div class="w-full flex flex-col gap-1">
+<div class="w-full h-3 rounded-full overflow-hidden flex bg-[#DFD3BD] p-[1px] shadow-inner border border-[#C8BC9F]"><div class="h-full bg-[#B8860B] rounded-l-full relative group" style="width: 45%;"></div><div class="h-full bg-[#C8BC9F]" style="width: 10%;"></div><div class="h-full bg-[#2E7D32] rounded-r-full" style="width: 45%;"></div></div>
+<div class="flex justify-between items-center text-[10px] font-grotesk font-semibold"><span class="text-[#A6761D]">Anubite 45%</span><span class="text-[#7A6E5D]">Empate 10%</span><span class="text-[#2E7D32]">Hidra 45%</span></div>
+<div class="text-center font-sans text-[11px] text-[#5C4F40] tracking-wide -mt-0.5">Efectivo repitiendo empates: <strong class="text-[#2A2218] font-semibold">50% – 50% (Duelo Equilibrado)</strong></div>
+</div>
+<!-- Master Battle Trigger Button (Embossed Gold Medallion >= 88px) -->
+<div class="pt-2">
+<button class="w-full h-[88px] min-h-[88px] rounded-xl flex items-center justify-center gap-3 transition-all cursor-pointer select-none active:translate-y-0.5" id="roll-trigger" onclick="triggerClash()" style="background: linear-gradient(180deg, #FDF4D4 0%, #ECCE7A 22%, #C49733 60%, #9E7416 100%); border: 2px solid #FDF0CD; box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.9), inset 0 -3px 5px rgba(90, 60, 10, 0.45), 0 3px 0 #7A5B12, 0 8px 18px rgba(42, 34, 24, 0.35); color: #2A1D06;"><span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 0 rgba(255, 248, 220, 0.7));">casino</span><span class="font-domine text-[22px] tracking-wider font-bold uppercase" style="text-shadow: 0 1px 0 rgba(255, 248, 220, 0.8), 0 -1px 0 rgba(50, 35, 5, 0.4);">TIRAR 2d6</span><span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 0 rgba(255, 248, 220, 0.7));">casino</span></button>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- PLAYER 1 (LOWER HALF - EGYPT) UPRIGHT 0°   -->
+<!-- ========================================== -->
+<div class="relative w-full h-[352px] flex flex-col justify-between px-4 pt-2 pb-3 bg-gradient-to-b from-[#E5DBC5] via-[#ECE2D0] to-[#F2EADB] border-t border-[#C8BC9F]/60 transition-all">
+<!-- Modifiers & Stepper Row -->
+<div class="flex items-center justify-between gap-2 pb-1"><!-- Fortification / Wall chip -->
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#C8BC9F] bg-[#EAE0CD] active:scale-95 transition-all text-[#5C4F40] shadow-sm" id="p1-wall-btn" onclick="toggleWall('p1')">
+<span class="material-symbols-outlined text-[16px] opacity-80">fort</span>
+<span class="font-grotesk text-[11px] font-semibold">Muro +2</span>
+</button>
+<!-- Stepper Counter -->
+<div class="flex items-center rounded-lg border border-[#C8BC9F] bg-[#EAE0CD] p-0.5 shadow-sm">
+<button class="w-7 h-7 rounded bg-transparent flex items-center justify-center text-[#5C4F40] hover:text-[#2A2218] active:scale-95 transition-transform" onclick="adjustMod('p1', -1)">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="w-7 text-center font-grotesk text-[#2A2218] font-bold text-xs" id="p1-mod-val">+0</span>
+<button class="w-7 h-7 rounded bg-transparent flex items-center justify-center text-[#5C4F40] hover:text-[#2A2218] active:scale-95 transition-transform" onclick="adjustMod('p1', 1)">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div></div>
+<!-- Core Titan Score Section -->
+<div class="flex items-center justify-between my-auto px-1">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="font-domine text-[#B8860B] font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(184,134,11,0.2)]" id="p1-base-score" style="font-size: 104px; line-height: 0.9;">9</span>
+<span class="font-grotesk text-[#5C4F40] font-bold tracking-widest uppercase text-xs">TABLA</span>
+</div>
+<div class="flex items-center gap-1.5 text-[#5C4F40]">
+<span class="font-sans text-xs">Puntaje previsto:</span>
+<span class="font-domine text-[18px] text-[#A6761D] font-bold" id="p1-projected">9</span>
+</div>
+</div>
+<!-- Ready Dice Slots (Waiting for 2d6) -->
+<div class="flex items-center gap-2">
+<div class="w-[52px] h-[52px] rounded-lg bg-[#E4D9C4] border border-[#C8BC9F] flex items-center justify-center text-[#5C4F40]/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" id="p1-die-1">
+<span class="material-symbols-outlined text-[28px]">casino</span>
+</div>
+<div class="w-[52px] h-[52px] rounded-lg bg-[#E4D9C4] border border-[#C8BC9F] flex items-center justify-center text-[#5C4F40]/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" id="p1-die-2">
+<span class="material-symbols-outlined text-[28px]">casino</span>
+</div>
+</div>
+</div>
+<!-- Faction & Unit Header (Footer for Player 1) -->
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[#B8860B]/15 border border-[#B8860B]/30 flex items-center justify-center text-[#B8860B] shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">token</span>
+</div>
+<div class="flex flex-col">
+<span class="font-domine text-[18px] text-[#2A2218] font-bold tracking-wider leading-none">ANUBITE</span>
+<span class="font-grotesk text-[#A6761D] tracking-widest text-[11px] font-semibold uppercase">Egipto</span>
+</div>
+</div>
+<!-- Unit Class Badge: Diamond / Mítico -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E0D4BE] border border-[#C8BC9F] shadow-sm">
+<span class="w-2.5 h-2.5 rotate-45 bg-[#B8860B] block shadow-[0_0_6px_rgba(184,134,11,0.4)]"></span>
+<span class="font-grotesk text-[#A6761D] text-[11px] font-bold tracking-wider uppercase">Mítico</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let state = {
+    p1: { base: 9, wall: false, mod: 0 },
+    p2: { base: 7, wall: false, mod: 0 },
+    mode: 'digital'
+  };
+
+  function updateDisplay(player) {
+    const data = state[player];
+    const total = data.base + (data.wall ? 2 : 0) + data.mod;
+    const projEl = document.getElementById(player + '-projected');
+    const modEl = document.getElementById(player + '-mod-val');
+    const wallBtn = document.getElementById(player + '-wall-btn');
+
+    if (projEl) projEl.innerText = total;
+    if (modEl) modEl.innerText = (data.mod >= 0 ? '+' : '') + data.mod;
+
+    if (wallBtn) {
+      if (data.wall) {
+        wallBtn.classList.remove('bg-[#EAE0CD]', 'text-[#5C4F40]', 'border-[#C8BC9F]');
+        if (player === 'p1') {
+          wallBtn.classList.add('bg-[#B8860B]', 'text-white', 'border-[#9E7416]');
+        } else {
+          wallBtn.classList.add('bg-[#2E7D32]', 'text-white', 'border-[#1B5E20]');
+        }
+      } else {
+        wallBtn.classList.remove('bg-[#B8860B]', 'bg-[#2E7D32]', 'text-white', 'border-[#9E7416]', 'border-[#1B5E20]');
+        wallBtn.classList.add('bg-[#EAE0CD]', 'text-[#5C4F40]', 'border-[#C8BC9F]');
+      }
+    }
+  }
+
+  function toggleWall(player) {
+    state[player].wall = !state[player].wall;
+    updateDisplay(player);
+  }
+
+  function adjustMod(player, delta) {
+    state[player].mod = Math.max(-5, Math.min(10, state[player].mod + delta));
+    updateDisplay(player);
+  }
+
+  function setDiceMode(mode) {
+    state.mode = mode;
+    const digBtn = document.getElementById('mode-digital');
+    const phyBtn = document.getElementById('mode-physical');
+    if (mode === 'digital') {
+      digBtn.className = 'px-3 py-1 rounded-full text-[11px] font-grotesk font-bold transition-all bg-[#B8860B] text-white shadow-sm';
+      phyBtn.className = 'px-3 py-1 rounded-full text-[11px] font-grotesk text-[#5C4F40] transition-all hover:text-[#2A2218]';
+    } else {
+      phyBtn.className = 'px-3 py-1 rounded-full text-[11px] font-grotesk font-bold transition-all bg-[#B8860B] text-white shadow-sm';
+      digBtn.className = 'px-3 py-1 rounded-full text-[11px] font-grotesk text-[#5C4F40] transition-all hover:text-[#2A2218]';
+    }
+  }
+
+  function triggerClash() {
+    const trigger = document.getElementById('roll-trigger');
+    trigger.classList.add('scale-95', 'brightness-110');
+    setTimeout(() => trigger.classList.remove('scale-95', 'brightness-110'), 180);
+
+    const rollDie = () => Math.floor(Math.random() * 6) + 1;
+    
+    // Animate slot placeholders
+    ['p1-die-1', 'p1-die-2', 'p2-die-1', 'p2-die-2'].forEach((id, idx) => {
+      const el = document.getElementById(id);
+      el.classList.add('animate-pulse');
+      setTimeout(() => {
+        el.classList.remove('animate-pulse');
+        const val = rollDie();
+        el.innerHTML = `<span class="font-domine text-[32px] text-[#2A2218] font-bold">${val}</span>`;
+        if (id.startsWith('p1')) {
+          el.classList.add('bg-[#B8860B]/15', 'border-[#B8860B]');
+        } else {
+          el.classList.add('bg-[#2E7D32]/15', 'border-[#2E7D32]');
+        }
+      }, 250 + (idx * 90));
+    });
+  }
+</script></main>
+</body></html>

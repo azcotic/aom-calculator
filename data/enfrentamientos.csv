@@ -1,0 +1,817 @@
+civ_a,unidad_a,civ_b,unidad_b,total_a,total_b,diff
+Egipto,Chariot Archer,Nordicos,Jarl,3,7,-4
+Egipto,Chariot Archer,Nordicos,Throwing Axeman,3,3,0
+Egipto,Chariot Archer,Nordicos,Huskarl,6,7,-1
+Egipto,Chariot Archer,Nordicos,Nidhogg,6,7,-1
+Egipto,Chariot Archer,Nordicos,Valkyrie,3,9,-6
+Egipto,Chariot Archer,Nordicos,Frost Giant,3,10,-7
+Egipto,Chariot Archer,Nordicos,Troll,6,10,-4
+Egipto,Chariot Archer,Nordicos,Dwarf,3,4,-1
+Egipto,Chariot Archer,Nordicos,Classical Hero,3,5,-2
+Egipto,Chariot Archer,Nordicos,Heroic Hero,3,6,-3
+Egipto,Chariot Archer,Nordicos,Mythic Hero,3,8,-5
+Egipto,Spearman,Nordicos,Jarl,6,3,3
+Egipto,Spearman,Nordicos,Throwing Axeman,3,6,-3
+Egipto,Spearman,Nordicos,Huskarl,3,3,0
+Egipto,Spearman,Nordicos,Nidhogg,3,7,-4
+Egipto,Spearman,Nordicos,Valkyrie,6,5,1
+Egipto,Spearman,Nordicos,Frost Giant,3,10,-7
+Egipto,Spearman,Nordicos,Troll,3,6,-3
+Egipto,Spearman,Nordicos,Dwarf,3,4,-1
+Egipto,Spearman,Nordicos,Classical Hero,7,5,2
+Egipto,Spearman,Nordicos,Heroic Hero,7,6,1
+Egipto,Spearman,Nordicos,Mythic Hero,7,8,-1
+Egipto,Elephant,Nordicos,Jarl,5,3,2
+Egipto,Elephant,Nordicos,Throwing Axeman,5,3,2
+Egipto,Elephant,Nordicos,Huskarl,5,3,2
+Egipto,Elephant,Nordicos,Nidhogg,3,7,-4
+Egipto,Elephant,Nordicos,Valkyrie,3,5,-2
+Egipto,Elephant,Nordicos,Frost Giant,3,10,-7
+Egipto,Elephant,Nordicos,Troll,3,6,-3
+Egipto,Elephant,Nordicos,Dwarf,3,11,-8
+Egipto,Elephant,Nordicos,Classical Hero,3,5,-2
+Egipto,Elephant,Nordicos,Heroic Hero,3,6,-3
+Egipto,Elephant,Nordicos,Mythic Hero,3,8,-5
+Egipto,Mummy,Nordicos,Jarl,5,3,2
+Egipto,Mummy,Nordicos,Throwing Axeman,5,3,2
+Egipto,Mummy,Nordicos,Huskarl,5,3,2
+Egipto,Mummy,Nordicos,Nidhogg,5,7,-2
+Egipto,Mummy,Nordicos,Valkyrie,5,5,0
+Egipto,Mummy,Nordicos,Frost Giant,5,7,-2
+Egipto,Mummy,Nordicos,Troll,5,6,-1
+Egipto,Mummy,Nordicos,Dwarf,5,4,1
+Egipto,Mummy,Nordicos,Classical Hero,5,9,-4
+Egipto,Mummy,Nordicos,Heroic Hero,5,10,-5
+Egipto,Mummy,Nordicos,Mythic Hero,5,12,-7
+Egipto,Scorpion-Man,Nordicos,Jarl,9,3,6
+Egipto,Scorpion-Man,Nordicos,Throwing Axeman,9,3,6
+Egipto,Scorpion-Man,Nordicos,Huskarl,9,3,6
+Egipto,Scorpion-Man,Nordicos,Nidhogg,5,7,-2
+Egipto,Scorpion-Man,Nordicos,Valkyrie,5,5,0
+Egipto,Scorpion-Man,Nordicos,Frost Giant,5,7,-2
+Egipto,Scorpion-Man,Nordicos,Troll,5,6,-1
+Egipto,Scorpion-Man,Nordicos,Dwarf,5,10,-5
+Egipto,Scorpion-Man,Nordicos,Classical Hero,5,9,-4
+Egipto,Scorpion-Man,Nordicos,Heroic Hero,5,10,-5
+Egipto,Scorpion-Man,Nordicos,Mythic Hero,5,12,-7
+Egipto,Sphinx,Nordicos,Jarl,5,3,2
+Egipto,Sphinx,Nordicos,Throwing Axeman,5,3,2
+Egipto,Sphinx,Nordicos,Huskarl,5,3,2
+Egipto,Sphinx,Nordicos,Nidhogg,5,11,-6
+Egipto,Sphinx,Nordicos,Valkyrie,5,5,0
+Egipto,Sphinx,Nordicos,Frost Giant,11,7,4
+Egipto,Sphinx,Nordicos,Troll,5,6,-1
+Egipto,Sphinx,Nordicos,Dwarf,5,4,1
+Egipto,Sphinx,Nordicos,Classical Hero,5,9,-4
+Egipto,Sphinx,Nordicos,Heroic Hero,5,10,-5
+Egipto,Sphinx,Nordicos,Mythic Hero,5,12,-7
+Egipto,Phoenix,Nordicos,Jarl,6,3,3
+Egipto,Phoenix,Nordicos,Throwing Axeman,6,7,-1
+Egipto,Phoenix,Nordicos,Huskarl,6,3,3
+Egipto,Phoenix,Nordicos,Nidhogg,6,7,-1
+Egipto,Phoenix,Nordicos,Valkyrie,6,5,1
+Egipto,Phoenix,Nordicos,Frost Giant,6,7,-1
+Egipto,Phoenix,Nordicos,Troll,6,6,0
+Egipto,Phoenix,Nordicos,Dwarf,10,4,6
+Egipto,Phoenix,Nordicos,Classical Hero,6,9,-3
+Egipto,Phoenix,Nordicos,Heroic Hero,6,10,-4
+Egipto,Phoenix,Nordicos,Mythic Hero,6,12,-6
+Egipto,Wadjet,Nordicos,Jarl,9,3,6
+Egipto,Wadjet,Nordicos,Throwing Axeman,5,6,-1
+Egipto,Wadjet,Nordicos,Huskarl,5,3,2
+Egipto,Wadjet,Nordicos,Nidhogg,5,7,-2
+Egipto,Wadjet,Nordicos,Valkyrie,9,5,4
+Egipto,Wadjet,Nordicos,Frost Giant,5,9,-4
+Egipto,Wadjet,Nordicos,Troll,5,6,-1
+Egipto,Wadjet,Nordicos,Dwarf,5,4,1
+Egipto,Wadjet,Nordicos,Classical Hero,5,9,-4
+Egipto,Wadjet,Nordicos,Heroic Hero,5,10,-5
+Egipto,Wadjet,Nordicos,Mythic Hero,5,12,-7
+Egipto,Anubite,Nordicos,Jarl,5,3,2
+Egipto,Anubite,Nordicos,Throwing Axeman,9,3,6
+Egipto,Anubite,Nordicos,Huskarl,5,7,-2
+Egipto,Anubite,Nordicos,Nidhogg,5,7,-2
+Egipto,Anubite,Nordicos,Valkyrie,5,5,0
+Egipto,Anubite,Nordicos,Frost Giant,5,7,-2
+Egipto,Anubite,Nordicos,Troll,5,10,-5
+Egipto,Anubite,Nordicos,Dwarf,5,4,1
+Egipto,Anubite,Nordicos,Classical Hero,5,9,-4
+Egipto,Anubite,Nordicos,Heroic Hero,5,10,-5
+Egipto,Anubite,Nordicos,Mythic Hero,5,12,-7
+Egipto,Priest,Nordicos,Jarl,4,7,-3
+Egipto,Priest,Nordicos,Throwing Axeman,4,3,1
+Egipto,Priest,Nordicos,Huskarl,4,3,1
+Egipto,Priest,Nordicos,Nidhogg,9,7,2
+Egipto,Priest,Nordicos,Valkyrie,9,5,4
+Egipto,Priest,Nordicos,Frost Giant,9,7,2
+Egipto,Priest,Nordicos,Troll,9,6,3
+Egipto,Priest,Nordicos,Dwarf,9,4,5
+Egipto,Priest,Nordicos,Classical Hero,4,5,-1
+Egipto,Priest,Nordicos,Heroic Hero,4,6,-2
+Egipto,Priest,Nordicos,Mythic Hero,4,8,-4
+Egipto,Pharaoh,Nordicos,Jarl,6,7,-1
+Egipto,Pharaoh,Nordicos,Throwing Axeman,6,3,3
+Egipto,Pharaoh,Nordicos,Huskarl,6,3,3
+Egipto,Pharaoh,Nordicos,Nidhogg,10,7,3
+Egipto,Pharaoh,Nordicos,Valkyrie,10,5,5
+Egipto,Pharaoh,Nordicos,Frost Giant,10,7,3
+Egipto,Pharaoh,Nordicos,Troll,10,6,4
+Egipto,Pharaoh,Nordicos,Dwarf,10,4,6
+Egipto,Pharaoh,Nordicos,Classical Hero,6,5,1
+Egipto,Pharaoh,Nordicos,Heroic Hero,6,6,0
+Egipto,Pharaoh,Nordicos,Mythic Hero,6,8,-2
+Egipto,Son of Osiris,Nordicos,Jarl,8,7,1
+Egipto,Son of Osiris,Nordicos,Throwing Axeman,8,3,5
+Egipto,Son of Osiris,Nordicos,Huskarl,8,3,5
+Egipto,Son of Osiris,Nordicos,Nidhogg,12,7,5
+Egipto,Son of Osiris,Nordicos,Valkyrie,12,5,7
+Egipto,Son of Osiris,Nordicos,Frost Giant,12,7,5
+Egipto,Son of Osiris,Nordicos,Troll,12,6,6
+Egipto,Son of Osiris,Nordicos,Dwarf,12,4,8
+Egipto,Son of Osiris,Nordicos,Classical Hero,8,5,3
+Egipto,Son of Osiris,Nordicos,Heroic Hero,8,6,2
+Egipto,Son of Osiris,Nordicos,Mythic Hero,8,8,0
+Nordicos,Jarl,Egipto,Chariot Archer,7,3,4
+Nordicos,Jarl,Egipto,Spearman,3,6,-3
+Nordicos,Jarl,Egipto,Elephant,3,5,-2
+Nordicos,Jarl,Egipto,Mummy,3,5,-2
+Nordicos,Jarl,Egipto,Scorpion-Man,3,9,-6
+Nordicos,Jarl,Egipto,Sphinx,3,5,-2
+Nordicos,Jarl,Egipto,Phoenix,3,6,-3
+Nordicos,Jarl,Egipto,Wadjet,3,9,-6
+Nordicos,Jarl,Egipto,Anubite,3,5,-2
+Nordicos,Jarl,Egipto,Priest,7,4,3
+Nordicos,Jarl,Egipto,Pharaoh,7,6,1
+Nordicos,Jarl,Egipto,Son of Osiris,7,8,-1
+Nordicos,Throwing Axeman,Egipto,Chariot Archer,3,3,0
+Nordicos,Throwing Axeman,Egipto,Spearman,6,3,3
+Nordicos,Throwing Axeman,Egipto,Elephant,3,5,-2
+Nordicos,Throwing Axeman,Egipto,Mummy,3,5,-2
+Nordicos,Throwing Axeman,Egipto,Scorpion-Man,3,9,-6
+Nordicos,Throwing Axeman,Egipto,Sphinx,3,5,-2
+Nordicos,Throwing Axeman,Egipto,Phoenix,7,6,1
+Nordicos,Throwing Axeman,Egipto,Wadjet,6,5,1
+Nordicos,Throwing Axeman,Egipto,Anubite,3,9,-6
+Nordicos,Throwing Axeman,Egipto,Priest,3,4,-1
+Nordicos,Throwing Axeman,Egipto,Pharaoh,3,6,-3
+Nordicos,Throwing Axeman,Egipto,Son of Osiris,3,8,-5
+Nordicos,Huskarl,Egipto,Chariot Archer,7,6,1
+Nordicos,Huskarl,Egipto,Spearman,3,3,0
+Nordicos,Huskarl,Egipto,Elephant,3,5,-2
+Nordicos,Huskarl,Egipto,Mummy,3,5,-2
+Nordicos,Huskarl,Egipto,Scorpion-Man,3,9,-6
+Nordicos,Huskarl,Egipto,Sphinx,3,5,-2
+Nordicos,Huskarl,Egipto,Phoenix,3,6,-3
+Nordicos,Huskarl,Egipto,Wadjet,3,5,-2
+Nordicos,Huskarl,Egipto,Anubite,7,5,2
+Nordicos,Huskarl,Egipto,Priest,3,4,-1
+Nordicos,Huskarl,Egipto,Pharaoh,3,6,-3
+Nordicos,Huskarl,Egipto,Son of Osiris,3,8,-5
+Nordicos,Nidhogg,Egipto,Chariot Archer,7,6,1
+Nordicos,Nidhogg,Egipto,Spearman,7,3,4
+Nordicos,Nidhogg,Egipto,Elephant,7,3,4
+Nordicos,Nidhogg,Egipto,Mummy,7,5,2
+Nordicos,Nidhogg,Egipto,Scorpion-Man,7,5,2
+Nordicos,Nidhogg,Egipto,Sphinx,11,5,6
+Nordicos,Nidhogg,Egipto,Phoenix,7,6,1
+Nordicos,Nidhogg,Egipto,Wadjet,7,5,2
+Nordicos,Nidhogg,Egipto,Anubite,7,5,2
+Nordicos,Nidhogg,Egipto,Priest,7,9,-2
+Nordicos,Nidhogg,Egipto,Pharaoh,7,10,-3
+Nordicos,Nidhogg,Egipto,Son of Osiris,7,12,-5
+Nordicos,Valkyrie,Egipto,Chariot Archer,9,3,6
+Nordicos,Valkyrie,Egipto,Spearman,5,6,-1
+Nordicos,Valkyrie,Egipto,Elephant,5,3,2
+Nordicos,Valkyrie,Egipto,Mummy,5,5,0
+Nordicos,Valkyrie,Egipto,Scorpion-Man,5,5,0
+Nordicos,Valkyrie,Egipto,Sphinx,5,5,0
+Nordicos,Valkyrie,Egipto,Phoenix,5,6,-1
+Nordicos,Valkyrie,Egipto,Wadjet,5,9,-4
+Nordicos,Valkyrie,Egipto,Anubite,5,5,0
+Nordicos,Valkyrie,Egipto,Priest,5,9,-4
+Nordicos,Valkyrie,Egipto,Pharaoh,5,10,-5
+Nordicos,Valkyrie,Egipto,Son of Osiris,5,12,-7
+Nordicos,Frost Giant,Egipto,Chariot Archer,10,3,7
+Nordicos,Frost Giant,Egipto,Spearman,10,3,7
+Nordicos,Frost Giant,Egipto,Elephant,10,3,7
+Nordicos,Frost Giant,Egipto,Mummy,7,5,2
+Nordicos,Frost Giant,Egipto,Scorpion-Man,7,5,2
+Nordicos,Frost Giant,Egipto,Sphinx,7,11,-4
+Nordicos,Frost Giant,Egipto,Phoenix,7,6,1
+Nordicos,Frost Giant,Egipto,Wadjet,9,5,4
+Nordicos,Frost Giant,Egipto,Anubite,7,5,2
+Nordicos,Frost Giant,Egipto,Priest,7,9,-2
+Nordicos,Frost Giant,Egipto,Pharaoh,7,10,-3
+Nordicos,Frost Giant,Egipto,Son of Osiris,7,12,-5
+Nordicos,Troll,Egipto,Chariot Archer,10,6,4
+Nordicos,Troll,Egipto,Spearman,6,3,3
+Nordicos,Troll,Egipto,Elephant,6,3,3
+Nordicos,Troll,Egipto,Mummy,6,5,1
+Nordicos,Troll,Egipto,Scorpion-Man,6,5,1
+Nordicos,Troll,Egipto,Sphinx,6,5,1
+Nordicos,Troll,Egipto,Phoenix,6,6,0
+Nordicos,Troll,Egipto,Wadjet,6,5,1
+Nordicos,Troll,Egipto,Anubite,10,5,5
+Nordicos,Troll,Egipto,Priest,6,9,-3
+Nordicos,Troll,Egipto,Pharaoh,6,10,-4
+Nordicos,Troll,Egipto,Son of Osiris,6,12,-6
+Nordicos,Dwarf,Egipto,Chariot Archer,4,3,1
+Nordicos,Dwarf,Egipto,Spearman,4,3,1
+Nordicos,Dwarf,Egipto,Elephant,11,3,8
+Nordicos,Dwarf,Egipto,Mummy,4,5,-1
+Nordicos,Dwarf,Egipto,Scorpion-Man,10,5,5
+Nordicos,Dwarf,Egipto,Sphinx,4,5,-1
+Nordicos,Dwarf,Egipto,Phoenix,4,10,-6
+Nordicos,Dwarf,Egipto,Wadjet,4,5,-1
+Nordicos,Dwarf,Egipto,Anubite,4,5,-1
+Nordicos,Dwarf,Egipto,Priest,4,9,-5
+Nordicos,Dwarf,Egipto,Pharaoh,4,10,-6
+Nordicos,Dwarf,Egipto,Son of Osiris,4,12,-8
+Nordicos,Classical Hero,Egipto,Chariot Archer,5,3,2
+Nordicos,Classical Hero,Egipto,Spearman,5,7,-2
+Nordicos,Classical Hero,Egipto,Elephant,5,3,2
+Nordicos,Classical Hero,Egipto,Mummy,9,5,4
+Nordicos,Classical Hero,Egipto,Scorpion-Man,9,5,4
+Nordicos,Classical Hero,Egipto,Sphinx,9,5,4
+Nordicos,Classical Hero,Egipto,Phoenix,9,6,3
+Nordicos,Classical Hero,Egipto,Wadjet,9,5,4
+Nordicos,Classical Hero,Egipto,Anubite,9,5,4
+Nordicos,Classical Hero,Egipto,Priest,5,4,1
+Nordicos,Classical Hero,Egipto,Pharaoh,5,6,-1
+Nordicos,Classical Hero,Egipto,Son of Osiris,5,8,-3
+Nordicos,Heroic Hero,Egipto,Chariot Archer,6,3,3
+Nordicos,Heroic Hero,Egipto,Spearman,6,7,-1
+Nordicos,Heroic Hero,Egipto,Elephant,6,3,3
+Nordicos,Heroic Hero,Egipto,Mummy,10,5,5
+Nordicos,Heroic Hero,Egipto,Scorpion-Man,10,5,5
+Nordicos,Heroic Hero,Egipto,Sphinx,10,5,5
+Nordicos,Heroic Hero,Egipto,Phoenix,10,6,4
+Nordicos,Heroic Hero,Egipto,Wadjet,10,5,5
+Nordicos,Heroic Hero,Egipto,Anubite,10,5,5
+Nordicos,Heroic Hero,Egipto,Priest,6,4,2
+Nordicos,Heroic Hero,Egipto,Pharaoh,6,6,0
+Nordicos,Heroic Hero,Egipto,Son of Osiris,6,8,-2
+Nordicos,Mythic Hero,Egipto,Chariot Archer,8,3,5
+Nordicos,Mythic Hero,Egipto,Spearman,8,7,1
+Nordicos,Mythic Hero,Egipto,Elephant,8,3,5
+Nordicos,Mythic Hero,Egipto,Mummy,12,5,7
+Nordicos,Mythic Hero,Egipto,Scorpion-Man,12,5,7
+Nordicos,Mythic Hero,Egipto,Sphinx,12,5,7
+Nordicos,Mythic Hero,Egipto,Phoenix,12,6,6
+Nordicos,Mythic Hero,Egipto,Wadjet,12,5,7
+Nordicos,Mythic Hero,Egipto,Anubite,12,5,7
+Nordicos,Mythic Hero,Egipto,Priest,8,4,4
+Nordicos,Mythic Hero,Egipto,Pharaoh,8,6,2
+Nordicos,Mythic Hero,Egipto,Son of Osiris,8,8,0
+Egipto,Chariot Archer,Griegos,Hoplite,6,7,-1
+Egipto,Chariot Archer,Griegos,Hippokon,3,7,-4
+Egipto,Chariot Archer,Griegos,Toxotes,3,3,0
+Egipto,Chariot Archer,Griegos,Hydra,3,6,-3
+Egipto,Chariot Archer,Griegos,Cyclops,3,10,-7
+Egipto,Chariot Archer,Griegos,Minotaur,6,9,-3
+Egipto,Chariot Archer,Griegos,Manticore,6,5,1
+Egipto,Chariot Archer,Griegos,Centaur,3,8,-5
+Egipto,Chariot Archer,Griegos,Medusa,3,5,-2
+Egipto,Chariot Archer,Griegos,Classical Hero,3,5,-2
+Egipto,Chariot Archer,Griegos,Heroic Hero,3,6,-3
+Egipto,Chariot Archer,Griegos,Mythical Hero,3,8,-5
+Egipto,Spearman,Griegos,Hoplite,3,4,-1
+Egipto,Spearman,Griegos,Hippokon,6,3,3
+Egipto,Spearman,Griegos,Toxotes,3,6,-3
+Egipto,Spearman,Griegos,Hydra,3,10,-7
+Egipto,Spearman,Griegos,Cyclops,3,10,-7
+Egipto,Spearman,Griegos,Minotaur,3,5,-2
+Egipto,Spearman,Griegos,Manticore,3,5,-2
+Egipto,Spearman,Griegos,Centaur,6,5,1
+Egipto,Spearman,Griegos,Medusa,3,5,-2
+Egipto,Spearman,Griegos,Classical Hero,7,5,2
+Egipto,Spearman,Griegos,Heroic Hero,7,6,1
+Egipto,Spearman,Griegos,Mythical Hero,7,8,-1
+Egipto,Elephant,Griegos,Hoplite,5,4,1
+Egipto,Elephant,Griegos,Hippokon,5,3,2
+Egipto,Elephant,Griegos,Toxotes,5,3,2
+Egipto,Elephant,Griegos,Hydra,3,6,-3
+Egipto,Elephant,Griegos,Cyclops,3,10,-7
+Egipto,Elephant,Griegos,Minotaur,3,5,-2
+Egipto,Elephant,Griegos,Manticore,3,5,-2
+Egipto,Elephant,Griegos,Centaur,3,5,-2
+Egipto,Elephant,Griegos,Medusa,3,11,-8
+Egipto,Elephant,Griegos,Classical Hero,3,5,-2
+Egipto,Elephant,Griegos,Heroic Hero,3,6,-3
+Egipto,Elephant,Griegos,Mythical Hero,3,8,-5
+Egipto,Mummy,Griegos,Hoplite,5,3,2
+Egipto,Mummy,Griegos,Hippokon,5,3,2
+Egipto,Mummy,Griegos,Toxotes,5,3,2
+Egipto,Mummy,Griegos,Hydra,5,6,-1
+Egipto,Mummy,Griegos,Cyclops,5,6,-1
+Egipto,Mummy,Griegos,Minotaur,5,5,0
+Egipto,Mummy,Griegos,Manticore,5,5,0
+Egipto,Mummy,Griegos,Centaur,5,5,0
+Egipto,Mummy,Griegos,Medusa,5,5,0
+Egipto,Mummy,Griegos,Classical Hero,5,9,-4
+Egipto,Mummy,Griegos,Heroic Hero,5,10,-5
+Egipto,Mummy,Griegos,Mythical Hero,5,10,-5
+Egipto,Scorpion-Man,Griegos,Hoplite,9,3,6
+Egipto,Scorpion-Man,Griegos,Hippokon,9,3,6
+Egipto,Scorpion-Man,Griegos,Toxotes,9,3,6
+Egipto,Scorpion-Man,Griegos,Hydra,5,6,-1
+Egipto,Scorpion-Man,Griegos,Cyclops,5,6,-1
+Egipto,Scorpion-Man,Griegos,Minotaur,5,5,0
+Egipto,Scorpion-Man,Griegos,Manticore,5,5,0
+Egipto,Scorpion-Man,Griegos,Centaur,5,5,0
+Egipto,Scorpion-Man,Griegos,Medusa,5,11,-6
+Egipto,Scorpion-Man,Griegos,Classical Hero,9,9,0
+Egipto,Scorpion-Man,Griegos,Heroic Hero,9,10,-1
+Egipto,Scorpion-Man,Griegos,Mythical Hero,9,10,-1
+Egipto,Sphinx,Griegos,Hoplite,5,3,2
+Egipto,Sphinx,Griegos,Hippokon,5,3,2
+Egipto,Sphinx,Griegos,Toxotes,5,3,2
+Egipto,Sphinx,Griegos,Hydra,11,6,5
+Egipto,Sphinx,Griegos,Cyclops,11,6,5
+Egipto,Sphinx,Griegos,Minotaur,5,5,0
+Egipto,Sphinx,Griegos,Manticore,5,9,-4
+Egipto,Sphinx,Griegos,Centaur,5,5,0
+Egipto,Sphinx,Griegos,Medusa,5,5,0
+Egipto,Sphinx,Griegos,Classical Hero,5,9,-4
+Egipto,Sphinx,Griegos,Heroic Hero,5,10,-5
+Egipto,Sphinx,Griegos,Mythical Hero,5,10,-5
+Egipto,Phoenix,Griegos,Hoplite,6,3,3
+Egipto,Phoenix,Griegos,Hippokon,6,3,3
+Egipto,Phoenix,Griegos,Toxotes,6,7,-1
+Egipto,Phoenix,Griegos,Hydra,6,6,0
+Egipto,Phoenix,Griegos,Cyclops,6,6,0
+Egipto,Phoenix,Griegos,Minotaur,6,5,1
+Egipto,Phoenix,Griegos,Manticore,6,5,1
+Egipto,Phoenix,Griegos,Centaur,6,8,-2
+Egipto,Phoenix,Griegos,Medusa,10,5,5
+Egipto,Phoenix,Griegos,Classical Hero,6,9,-3
+Egipto,Phoenix,Griegos,Heroic Hero,6,10,-4
+Egipto,Phoenix,Griegos,Mythical Hero,6,10,-4
+Egipto,Wadjet,Griegos,Hoplite,5,3,2
+Egipto,Wadjet,Griegos,Hippokon,9,3,6
+Egipto,Wadjet,Griegos,Toxotes,5,6,-1
+Egipto,Wadjet,Griegos,Hydra,5,10,-5
+Egipto,Wadjet,Griegos,Cyclops,5,6,-1
+Egipto,Wadjet,Griegos,Minotaur,5,5,0
+Egipto,Wadjet,Griegos,Manticore,5,5,0
+Egipto,Wadjet,Griegos,Centaur,9,5,4
+Egipto,Wadjet,Griegos,Medusa,5,5,0
+Egipto,Wadjet,Griegos,Classical Hero,5,9,-4
+Egipto,Wadjet,Griegos,Heroic Hero,5,10,-5
+Egipto,Wadjet,Griegos,Mythical Hero,5,10,-5
+Egipto,Anubite,Griegos,Hoplite,5,6,-1
+Egipto,Anubite,Griegos,Hippokon,5,3,2
+Egipto,Anubite,Griegos,Toxotes,9,3,6
+Egipto,Anubite,Griegos,Hydra,5,6,-1
+Egipto,Anubite,Griegos,Cyclops,5,6,-1
+Egipto,Anubite,Griegos,Minotaur,5,9,-4
+Egipto,Anubite,Griegos,Manticore,5,5,0
+Egipto,Anubite,Griegos,Centaur,9,5,4
+Egipto,Anubite,Griegos,Medusa,5,5,0
+Egipto,Anubite,Griegos,Classical Hero,5,9,-4
+Egipto,Anubite,Griegos,Heroic Hero,5,10,-5
+Egipto,Anubite,Griegos,Mythical Hero,5,10,-5
+Egipto,Priest,Griegos,Hoplite,4,3,1
+Egipto,Priest,Griegos,Hippokon,4,7,-3
+Egipto,Priest,Griegos,Toxotes,4,3,1
+Egipto,Priest,Griegos,Hydra,9,6,3
+Egipto,Priest,Griegos,Cyclops,9,6,3
+Egipto,Priest,Griegos,Minotaur,9,5,4
+Egipto,Priest,Griegos,Manticore,9,5,4
+Egipto,Priest,Griegos,Centaur,9,5,4
+Egipto,Priest,Griegos,Medusa,9,5,4
+Egipto,Priest,Griegos,Classical Hero,4,5,-1
+Egipto,Priest,Griegos,Heroic Hero,4,6,-2
+Egipto,Priest,Griegos,Mythical Hero,4,9,-5
+Egipto,Pharaoh,Griegos,Hoplite,6,3,3
+Egipto,Pharaoh,Griegos,Hippokon,6,7,-1
+Egipto,Pharaoh,Griegos,Toxotes,6,3,3
+Egipto,Pharaoh,Griegos,Hydra,10,6,4
+Egipto,Pharaoh,Griegos,Cyclops,10,6,4
+Egipto,Pharaoh,Griegos,Minotaur,10,5,5
+Egipto,Pharaoh,Griegos,Manticore,10,5,5
+Egipto,Pharaoh,Griegos,Centaur,10,5,5
+Egipto,Pharaoh,Griegos,Medusa,10,5,5
+Egipto,Pharaoh,Griegos,Classical Hero,6,5,1
+Egipto,Pharaoh,Griegos,Heroic Hero,6,6,0
+Egipto,Pharaoh,Griegos,Mythical Hero,6,11,-5
+Egipto,Son of Osiris,Griegos,Hoplite,8,3,5
+Egipto,Son of Osiris,Griegos,Hippokon,8,7,1
+Egipto,Son of Osiris,Griegos,Toxotes,8,3,5
+Egipto,Son of Osiris,Griegos,Hydra,12,6,6
+Egipto,Son of Osiris,Griegos,Cyclops,12,6,6
+Egipto,Son of Osiris,Griegos,Minotaur,12,5,7
+Egipto,Son of Osiris,Griegos,Manticore,12,5,7
+Egipto,Son of Osiris,Griegos,Centaur,12,5,7
+Egipto,Son of Osiris,Griegos,Medusa,12,5,7
+Egipto,Son of Osiris,Griegos,Classical Hero,8,5,3
+Egipto,Son of Osiris,Griegos,Heroic Hero,8,6,2
+Egipto,Son of Osiris,Griegos,Mythical Hero,8,13,-5
+Griegos,Hoplite,Egipto,Chariot Archer,7,6,1
+Griegos,Hoplite,Egipto,Spearman,4,3,1
+Griegos,Hoplite,Egipto,Elephant,4,5,-1
+Griegos,Hoplite,Egipto,Mummy,3,5,-2
+Griegos,Hoplite,Egipto,Scorpion-Man,3,9,-6
+Griegos,Hoplite,Egipto,Sphinx,3,5,-2
+Griegos,Hoplite,Egipto,Phoenix,3,6,-3
+Griegos,Hoplite,Egipto,Wadjet,3,5,-2
+Griegos,Hoplite,Egipto,Anubite,6,5,1
+Griegos,Hoplite,Egipto,Priest,3,4,-1
+Griegos,Hoplite,Egipto,Pharaoh,3,6,-3
+Griegos,Hoplite,Egipto,Son of Osiris,3,8,-5
+Griegos,Hippokon,Egipto,Chariot Archer,7,3,4
+Griegos,Hippokon,Egipto,Spearman,3,6,-3
+Griegos,Hippokon,Egipto,Elephant,3,5,-2
+Griegos,Hippokon,Egipto,Mummy,3,5,-2
+Griegos,Hippokon,Egipto,Scorpion-Man,3,9,-6
+Griegos,Hippokon,Egipto,Sphinx,3,5,-2
+Griegos,Hippokon,Egipto,Phoenix,3,6,-3
+Griegos,Hippokon,Egipto,Wadjet,3,9,-6
+Griegos,Hippokon,Egipto,Anubite,3,5,-2
+Griegos,Hippokon,Egipto,Priest,7,4,3
+Griegos,Hippokon,Egipto,Pharaoh,7,6,1
+Griegos,Hippokon,Egipto,Son of Osiris,7,8,-1
+Griegos,Toxotes,Egipto,Chariot Archer,3,3,0
+Griegos,Toxotes,Egipto,Spearman,6,3,3
+Griegos,Toxotes,Egipto,Elephant,3,5,-2
+Griegos,Toxotes,Egipto,Mummy,3,5,-2
+Griegos,Toxotes,Egipto,Scorpion-Man,3,9,-6
+Griegos,Toxotes,Egipto,Sphinx,3,5,-2
+Griegos,Toxotes,Egipto,Phoenix,7,6,1
+Griegos,Toxotes,Egipto,Wadjet,6,5,1
+Griegos,Toxotes,Egipto,Anubite,3,9,-6
+Griegos,Toxotes,Egipto,Priest,3,4,-1
+Griegos,Toxotes,Egipto,Pharaoh,3,6,-3
+Griegos,Toxotes,Egipto,Son of Osiris,3,8,-5
+Griegos,Hydra,Egipto,Chariot Archer,6,3,3
+Griegos,Hydra,Egipto,Spearman,10,3,7
+Griegos,Hydra,Egipto,Elephant,6,3,3
+Griegos,Hydra,Egipto,Mummy,6,5,1
+Griegos,Hydra,Egipto,Scorpion-Man,6,5,1
+Griegos,Hydra,Egipto,Sphinx,6,11,-5
+Griegos,Hydra,Egipto,Phoenix,6,6,0
+Griegos,Hydra,Egipto,Wadjet,10,5,5
+Griegos,Hydra,Egipto,Anubite,6,5,1
+Griegos,Hydra,Egipto,Priest,6,9,-3
+Griegos,Hydra,Egipto,Pharaoh,6,10,-4
+Griegos,Hydra,Egipto,Son of Osiris,6,12,-6
+Griegos,Cyclops,Egipto,Chariot Archer,10,3,7
+Griegos,Cyclops,Egipto,Spearman,10,3,7
+Griegos,Cyclops,Egipto,Elephant,10,3,7
+Griegos,Cyclops,Egipto,Mummy,6,5,1
+Griegos,Cyclops,Egipto,Scorpion-Man,6,5,1
+Griegos,Cyclops,Egipto,Sphinx,6,11,-5
+Griegos,Cyclops,Egipto,Phoenix,6,6,0
+Griegos,Cyclops,Egipto,Wadjet,6,5,1
+Griegos,Cyclops,Egipto,Anubite,6,5,1
+Griegos,Cyclops,Egipto,Priest,6,9,-3
+Griegos,Cyclops,Egipto,Pharaoh,6,10,-4
+Griegos,Cyclops,Egipto,Son of Osiris,6,12,-6
+Griegos,Minotaur,Egipto,Chariot Archer,9,6,3
+Griegos,Minotaur,Egipto,Spearman,5,3,2
+Griegos,Minotaur,Egipto,Elephant,5,3,2
+Griegos,Minotaur,Egipto,Mummy,5,5,0
+Griegos,Minotaur,Egipto,Scorpion-Man,5,5,0
+Griegos,Minotaur,Egipto,Sphinx,5,5,0
+Griegos,Minotaur,Egipto,Phoenix,5,6,-1
+Griegos,Minotaur,Egipto,Wadjet,5,5,0
+Griegos,Minotaur,Egipto,Anubite,9,5,4
+Griegos,Minotaur,Egipto,Priest,5,9,-4
+Griegos,Minotaur,Egipto,Pharaoh,5,10,-5
+Griegos,Minotaur,Egipto,Son of Osiris,5,12,-7
+Griegos,Manticore,Egipto,Chariot Archer,5,6,-1
+Griegos,Manticore,Egipto,Spearman,5,3,2
+Griegos,Manticore,Egipto,Elephant,5,3,2
+Griegos,Manticore,Egipto,Mummy,5,5,0
+Griegos,Manticore,Egipto,Scorpion-Man,5,5,0
+Griegos,Manticore,Egipto,Sphinx,9,5,4
+Griegos,Manticore,Egipto,Phoenix,5,6,-1
+Griegos,Manticore,Egipto,Wadjet,5,5,0
+Griegos,Manticore,Egipto,Anubite,5,5,0
+Griegos,Manticore,Egipto,Priest,5,9,-4
+Griegos,Manticore,Egipto,Pharaoh,5,10,-5
+Griegos,Manticore,Egipto,Son of Osiris,5,12,-7
+Griegos,Centaur,Egipto,Chariot Archer,8,3,5
+Griegos,Centaur,Egipto,Spearman,5,6,-1
+Griegos,Centaur,Egipto,Elephant,5,3,2
+Griegos,Centaur,Egipto,Mummy,5,5,0
+Griegos,Centaur,Egipto,Scorpion-Man,5,5,0
+Griegos,Centaur,Egipto,Sphinx,5,5,0
+Griegos,Centaur,Egipto,Phoenix,8,6,2
+Griegos,Centaur,Egipto,Wadjet,5,9,-4
+Griegos,Centaur,Egipto,Anubite,5,9,-4
+Griegos,Centaur,Egipto,Priest,5,9,-4
+Griegos,Centaur,Egipto,Pharaoh,5,10,-5
+Griegos,Centaur,Egipto,Son of Osiris,5,12,-7
+Griegos,Medusa,Egipto,Chariot Archer,5,3,2
+Griegos,Medusa,Egipto,Spearman,5,3,2
+Griegos,Medusa,Egipto,Elephant,11,3,8
+Griegos,Medusa,Egipto,Mummy,5,5,0
+Griegos,Medusa,Egipto,Scorpion-Man,11,5,6
+Griegos,Medusa,Egipto,Sphinx,5,5,0
+Griegos,Medusa,Egipto,Phoenix,5,10,-5
+Griegos,Medusa,Egipto,Wadjet,5,5,0
+Griegos,Medusa,Egipto,Anubite,5,5,0
+Griegos,Medusa,Egipto,Priest,5,9,-4
+Griegos,Medusa,Egipto,Pharaoh,5,10,-5
+Griegos,Medusa,Egipto,Son of Osiris,5,12,-7
+Griegos,Classical Hero,Egipto,Chariot Archer,5,3,2
+Griegos,Classical Hero,Egipto,Spearman,5,7,-2
+Griegos,Classical Hero,Egipto,Elephant,5,3,2
+Griegos,Classical Hero,Egipto,Mummy,9,5,4
+Griegos,Classical Hero,Egipto,Scorpion-Man,9,9,0
+Griegos,Classical Hero,Egipto,Sphinx,9,5,4
+Griegos,Classical Hero,Egipto,Phoenix,9,6,3
+Griegos,Classical Hero,Egipto,Wadjet,9,5,4
+Griegos,Classical Hero,Egipto,Anubite,9,5,4
+Griegos,Classical Hero,Egipto,Priest,5,4,1
+Griegos,Classical Hero,Egipto,Pharaoh,5,6,-1
+Griegos,Classical Hero,Egipto,Son of Osiris,5,8,-3
+Griegos,Heroic Hero,Egipto,Chariot Archer,6,3,3
+Griegos,Heroic Hero,Egipto,Spearman,6,7,-1
+Griegos,Heroic Hero,Egipto,Elephant,6,3,3
+Griegos,Heroic Hero,Egipto,Mummy,10,5,5
+Griegos,Heroic Hero,Egipto,Scorpion-Man,10,9,1
+Griegos,Heroic Hero,Egipto,Sphinx,10,5,5
+Griegos,Heroic Hero,Egipto,Phoenix,10,6,4
+Griegos,Heroic Hero,Egipto,Wadjet,10,5,5
+Griegos,Heroic Hero,Egipto,Anubite,10,5,5
+Griegos,Heroic Hero,Egipto,Priest,6,4,2
+Griegos,Heroic Hero,Egipto,Pharaoh,6,6,0
+Griegos,Heroic Hero,Egipto,Son of Osiris,6,8,-2
+Griegos,Mythical Hero,Egipto,Chariot Archer,8,3,5
+Griegos,Mythical Hero,Egipto,Spearman,8,7,1
+Griegos,Mythical Hero,Egipto,Elephant,8,3,5
+Griegos,Mythical Hero,Egipto,Mummy,10,5,5
+Griegos,Mythical Hero,Egipto,Scorpion-Man,10,9,1
+Griegos,Mythical Hero,Egipto,Sphinx,10,5,5
+Griegos,Mythical Hero,Egipto,Phoenix,10,6,4
+Griegos,Mythical Hero,Egipto,Wadjet,10,5,5
+Griegos,Mythical Hero,Egipto,Anubite,10,5,5
+Griegos,Mythical Hero,Egipto,Priest,9,4,5
+Griegos,Mythical Hero,Egipto,Pharaoh,11,6,5
+Griegos,Mythical Hero,Egipto,Son of Osiris,13,8,5
+Griegos,Hoplite,Nordicos,Jarl,7,3,4
+Griegos,Hoplite,Nordicos,Throwing Axeman,4,6,-2
+Griegos,Hoplite,Nordicos,Huskarl,4,3,1
+Griegos,Hoplite,Nordicos,Nidhogg,3,7,-4
+Griegos,Hoplite,Nordicos,Valkyrie,6,5,1
+Griegos,Hoplite,Nordicos,Frost Giant,3,12,-9
+Griegos,Hoplite,Nordicos,Troll,3,6,-3
+Griegos,Hoplite,Nordicos,Dwarf,3,4,-1
+Griegos,Hoplite,Nordicos,Classical Hero,3,5,-2
+Griegos,Hoplite,Nordicos,Heroic Hero,3,6,-3
+Griegos,Hoplite,Nordicos,Mythic Hero,3,8,-5
+Griegos,Hippokon,Nordicos,Jarl,3,3,0
+Griegos,Hippokon,Nordicos,Throwing Axeman,7,3,4
+Griegos,Hippokon,Nordicos,Huskarl,3,7,-4
+Griegos,Hippokon,Nordicos,Nidhogg,3,7,-4
+Griegos,Hippokon,Nordicos,Valkyrie,3,5,-2
+Griegos,Hippokon,Nordicos,Frost Giant,3,10,-7
+Griegos,Hippokon,Nordicos,Troll,3,10,-7
+Griegos,Hippokon,Nordicos,Dwarf,3,4,-1
+Griegos,Hippokon,Nordicos,Classical Hero,7,5,2
+Griegos,Hippokon,Nordicos,Heroic Hero,7,6,1
+Griegos,Hippokon,Nordicos,Mythic Hero,7,8,-1
+Griegos,Toxotes,Nordicos,Jarl,3,7,-4
+Griegos,Toxotes,Nordicos,Throwing Axeman,3,3,0
+Griegos,Toxotes,Nordicos,Huskarl,6,3,3
+Griegos,Toxotes,Nordicos,Nidhogg,7,7,0
+Griegos,Toxotes,Nordicos,Valkyrie,3,9,-6
+Griegos,Toxotes,Nordicos,Frost Giant,3,10,-7
+Griegos,Toxotes,Nordicos,Troll,6,6,0
+Griegos,Toxotes,Nordicos,Dwarf,3,4,-1
+Griegos,Toxotes,Nordicos,Classical Hero,3,5,-2
+Griegos,Toxotes,Nordicos,Heroic Hero,3,6,-3
+Griegos,Toxotes,Nordicos,Mythic Hero,3,8,-5
+Griegos,Hydra,Nordicos,Jarl,6,3,3
+Griegos,Hydra,Nordicos,Throwing Axeman,6,3,3
+Griegos,Hydra,Nordicos,Huskarl,10,3,7
+Griegos,Hydra,Nordicos,Nidhogg,6,7,-1
+Griegos,Hydra,Nordicos,Valkyrie,6,5,1
+Griegos,Hydra,Nordicos,Frost Giant,6,7,-1
+Griegos,Hydra,Nordicos,Troll,10,6,4
+Griegos,Hydra,Nordicos,Dwarf,6,11,-5
+Griegos,Hydra,Nordicos,Classical Hero,6,9,-3
+Griegos,Hydra,Nordicos,Heroic Hero,6,10,-4
+Griegos,Hydra,Nordicos,Mythic Hero,6,12,-6
+Griegos,Cyclops,Nordicos,Jarl,10,3,7
+Griegos,Cyclops,Nordicos,Throwing Axeman,10,3,7
+Griegos,Cyclops,Nordicos,Huskarl,10,3,7
+Griegos,Cyclops,Nordicos,Nidhogg,6,7,-1
+Griegos,Cyclops,Nordicos,Valkyrie,6,5,1
+Griegos,Cyclops,Nordicos,Frost Giant,6,7,-1
+Griegos,Cyclops,Nordicos,Troll,6,6,0
+Griegos,Cyclops,Nordicos,Dwarf,6,11,-5
+Griegos,Cyclops,Nordicos,Classical Hero,6,9,-3
+Griegos,Cyclops,Nordicos,Heroic Hero,6,10,-4
+Griegos,Cyclops,Nordicos,Mythic Hero,6,12,-6
+Griegos,Minotaur,Nordicos,Jarl,9,3,6
+Griegos,Minotaur,Nordicos,Throwing Axeman,5,6,-1
+Griegos,Minotaur,Nordicos,Huskarl,5,3,2
+Griegos,Minotaur,Nordicos,Nidhogg,5,7,-2
+Griegos,Minotaur,Nordicos,Valkyrie,9,5,4
+Griegos,Minotaur,Nordicos,Frost Giant,5,9,-4
+Griegos,Minotaur,Nordicos,Troll,5,6,-1
+Griegos,Minotaur,Nordicos,Dwarf,5,4,1
+Griegos,Minotaur,Nordicos,Classical Hero,5,9,-4
+Griegos,Minotaur,Nordicos,Heroic Hero,5,10,-5
+Griegos,Minotaur,Nordicos,Mythic Hero,5,12,-7
+Griegos,Manticore,Nordicos,Jarl,5,3,2
+Griegos,Manticore,Nordicos,Throwing Axeman,5,7,-2
+Griegos,Manticore,Nordicos,Huskarl,5,3,2
+Griegos,Manticore,Nordicos,Nidhogg,5,7,-2
+Griegos,Manticore,Nordicos,Valkyrie,5,5,0
+Griegos,Manticore,Nordicos,Frost Giant,5,7,-2
+Griegos,Manticore,Nordicos,Troll,5,6,-1
+Griegos,Manticore,Nordicos,Dwarf,9,4,5
+Griegos,Manticore,Nordicos,Classical Hero,5,9,-4
+Griegos,Manticore,Nordicos,Heroic Hero,5,10,-5
+Griegos,Manticore,Nordicos,Mythic Hero,5,12,-7
+Griegos,Centaur,Nordicos,Jarl,5,7,-2
+Griegos,Centaur,Nordicos,Throwing Axeman,8,3,5
+Griegos,Centaur,Nordicos,Huskarl,5,7,-2
+Griegos,Centaur,Nordicos,Nidhogg,8,7,1
+Griegos,Centaur,Nordicos,Valkyrie,5,9,-4
+Griegos,Centaur,Nordicos,Frost Giant,5,7,-2
+Griegos,Centaur,Nordicos,Troll,5,10,-5
+Griegos,Centaur,Nordicos,Dwarf,5,4,1
+Griegos,Centaur,Nordicos,Classical Hero,5,9,-4
+Griegos,Centaur,Nordicos,Heroic Hero,5,10,-5
+Griegos,Centaur,Nordicos,Mythic Hero,5,12,-7
+Griegos,Medusa,Nordicos,Jarl,5,3,2
+Griegos,Medusa,Nordicos,Throwing Axeman,5,3,2
+Griegos,Medusa,Nordicos,Huskarl,5,3,2
+Griegos,Medusa,Nordicos,Nidhogg,5,11,-6
+Griegos,Medusa,Nordicos,Valkyrie,5,5,0
+Griegos,Medusa,Nordicos,Frost Giant,11,7,4
+Griegos,Medusa,Nordicos,Troll,5,6,-1
+Griegos,Medusa,Nordicos,Dwarf,5,4,1
+Griegos,Medusa,Nordicos,Classical Hero,5,9,-4
+Griegos,Medusa,Nordicos,Heroic Hero,5,10,-5
+Griegos,Medusa,Nordicos,Mythic Hero,5,12,-7
+Griegos,Classical Hero,Nordicos,Jarl,5,7,-2
+Griegos,Classical Hero,Nordicos,Throwing Axeman,5,3,2
+Griegos,Classical Hero,Nordicos,Huskarl,5,3,2
+Griegos,Classical Hero,Nordicos,Nidhogg,9,7,2
+Griegos,Classical Hero,Nordicos,Valkyrie,9,5,4
+Griegos,Classical Hero,Nordicos,Frost Giant,9,7,2
+Griegos,Classical Hero,Nordicos,Troll,9,6,3
+Griegos,Classical Hero,Nordicos,Dwarf,9,4,5
+Griegos,Classical Hero,Nordicos,Classical Hero,5,5,0
+Griegos,Classical Hero,Nordicos,Heroic Hero,5,6,-1
+Griegos,Classical Hero,Nordicos,Mythic Hero,5,8,-3
+Griegos,Heroic Hero,Nordicos,Jarl,6,7,-1
+Griegos,Heroic Hero,Nordicos,Throwing Axeman,6,3,3
+Griegos,Heroic Hero,Nordicos,Huskarl,6,3,3
+Griegos,Heroic Hero,Nordicos,Nidhogg,10,7,3
+Griegos,Heroic Hero,Nordicos,Valkyrie,10,5,5
+Griegos,Heroic Hero,Nordicos,Frost Giant,10,7,3
+Griegos,Heroic Hero,Nordicos,Troll,10,6,4
+Griegos,Heroic Hero,Nordicos,Dwarf,10,4,6
+Griegos,Heroic Hero,Nordicos,Classical Hero,6,5,1
+Griegos,Heroic Hero,Nordicos,Heroic Hero,6,6,0
+Griegos,Heroic Hero,Nordicos,Mythic Hero,6,8,-2
+Griegos,Mythical Hero,Nordicos,Jarl,8,7,1
+Griegos,Mythical Hero,Nordicos,Throwing Axeman,8,3,5
+Griegos,Mythical Hero,Nordicos,Huskarl,8,3,5
+Griegos,Mythical Hero,Nordicos,Nidhogg,12,7,5
+Griegos,Mythical Hero,Nordicos,Valkyrie,10,5,5
+Griegos,Mythical Hero,Nordicos,Frost Giant,12,7,5
+Griegos,Mythical Hero,Nordicos,Troll,11,6,5
+Griegos,Mythical Hero,Nordicos,Dwarf,9,4,5
+Griegos,Mythical Hero,Nordicos,Classical Hero,10,5,5
+Griegos,Mythical Hero,Nordicos,Heroic Hero,11,6,5
+Griegos,Mythical Hero,Nordicos,Mythic Hero,13,8,5
+Nordicos,Jarl,Griegos,Hoplite,3,7,-4
+Nordicos,Jarl,Griegos,Hippokon,3,3,0
+Nordicos,Jarl,Griegos,Toxotes,7,3,4
+Nordicos,Jarl,Griegos,Hydra,3,6,-3
+Nordicos,Jarl,Griegos,Cyclops,3,10,-7
+Nordicos,Jarl,Griegos,Minotaur,3,9,-6
+Nordicos,Jarl,Griegos,Manticore,3,5,-2
+Nordicos,Jarl,Griegos,Centaur,7,5,2
+Nordicos,Jarl,Griegos,Medusa,3,5,-2
+Nordicos,Jarl,Griegos,Classical Hero,7,5,2
+Nordicos,Jarl,Griegos,Heroic Hero,7,6,1
+Nordicos,Jarl,Griegos,Mythical Hero,7,8,-1
+Nordicos,Throwing Axeman,Griegos,Hoplite,6,4,2
+Nordicos,Throwing Axeman,Griegos,Hippokon,3,7,-4
+Nordicos,Throwing Axeman,Griegos,Toxotes,3,3,0
+Nordicos,Throwing Axeman,Griegos,Hydra,3,6,-3
+Nordicos,Throwing Axeman,Griegos,Cyclops,3,10,-7
+Nordicos,Throwing Axeman,Griegos,Minotaur,6,5,1
+Nordicos,Throwing Axeman,Griegos,Manticore,7,5,2
+Nordicos,Throwing Axeman,Griegos,Centaur,3,8,-5
+Nordicos,Throwing Axeman,Griegos,Medusa,3,5,-2
+Nordicos,Throwing Axeman,Griegos,Classical Hero,3,5,-2
+Nordicos,Throwing Axeman,Griegos,Heroic Hero,3,6,-3
+Nordicos,Throwing Axeman,Griegos,Mythical Hero,3,8,-5
+Nordicos,Huskarl,Griegos,Hoplite,3,4,-1
+Nordicos,Huskarl,Griegos,Hippokon,7,3,4
+Nordicos,Huskarl,Griegos,Toxotes,3,6,-3
+Nordicos,Huskarl,Griegos,Hydra,3,10,-7
+Nordicos,Huskarl,Griegos,Cyclops,3,10,-7
+Nordicos,Huskarl,Griegos,Minotaur,3,5,-2
+Nordicos,Huskarl,Griegos,Manticore,3,5,-2
+Nordicos,Huskarl,Griegos,Centaur,7,5,2
+Nordicos,Huskarl,Griegos,Medusa,3,5,-2
+Nordicos,Huskarl,Griegos,Classical Hero,3,5,-2
+Nordicos,Huskarl,Griegos,Heroic Hero,3,6,-3
+Nordicos,Huskarl,Griegos,Mythical Hero,3,8,-5
+Nordicos,Nidhogg,Griegos,Hoplite,7,3,4
+Nordicos,Nidhogg,Griegos,Hippokon,7,3,4
+Nordicos,Nidhogg,Griegos,Toxotes,7,7,0
+Nordicos,Nidhogg,Griegos,Hydra,7,6,1
+Nordicos,Nidhogg,Griegos,Cyclops,7,6,1
+Nordicos,Nidhogg,Griegos,Minotaur,7,5,2
+Nordicos,Nidhogg,Griegos,Manticore,7,5,2
+Nordicos,Nidhogg,Griegos,Centaur,7,8,-1
+Nordicos,Nidhogg,Griegos,Medusa,11,5,6
+Nordicos,Nidhogg,Griegos,Classical Hero,7,9,-2
+Nordicos,Nidhogg,Griegos,Heroic Hero,7,10,-3
+Nordicos,Nidhogg,Griegos,Mythical Hero,7,12,-5
+Nordicos,Valkyrie,Griegos,Hoplite,5,6,-1
+Nordicos,Valkyrie,Griegos,Hippokon,5,3,2
+Nordicos,Valkyrie,Griegos,Toxotes,9,3,6
+Nordicos,Valkyrie,Griegos,Hydra,5,6,-1
+Nordicos,Valkyrie,Griegos,Cyclops,5,6,-1
+Nordicos,Valkyrie,Griegos,Minotaur,5,9,-4
+Nordicos,Valkyrie,Griegos,Manticore,5,5,0
+Nordicos,Valkyrie,Griegos,Centaur,9,5,4
+Nordicos,Valkyrie,Griegos,Medusa,5,5,0
+Nordicos,Valkyrie,Griegos,Classical Hero,5,9,-4
+Nordicos,Valkyrie,Griegos,Heroic Hero,5,10,-5
+Nordicos,Valkyrie,Griegos,Mythical Hero,5,10,-5
+Nordicos,Frost Giant,Griegos,Hoplite,12,3,9
+Nordicos,Frost Giant,Griegos,Hippokon,10,3,7
+Nordicos,Frost Giant,Griegos,Toxotes,10,3,7
+Nordicos,Frost Giant,Griegos,Hydra,7,6,1
+Nordicos,Frost Giant,Griegos,Cyclops,7,6,1
+Nordicos,Frost Giant,Griegos,Minotaur,9,5,4
+Nordicos,Frost Giant,Griegos,Manticore,7,5,2
+Nordicos,Frost Giant,Griegos,Centaur,7,5,2
+Nordicos,Frost Giant,Griegos,Medusa,7,11,-4
+Nordicos,Frost Giant,Griegos,Classical Hero,7,9,-2
+Nordicos,Frost Giant,Griegos,Heroic Hero,7,10,-3
+Nordicos,Frost Giant,Griegos,Mythical Hero,7,12,-5
+Nordicos,Troll,Griegos,Hoplite,6,3,3
+Nordicos,Troll,Griegos,Hippokon,10,3,7
+Nordicos,Troll,Griegos,Toxotes,6,6,0
+Nordicos,Troll,Griegos,Hydra,6,10,-4
+Nordicos,Troll,Griegos,Cyclops,6,6,0
+Nordicos,Troll,Griegos,Minotaur,6,5,1
+Nordicos,Troll,Griegos,Manticore,6,5,1
+Nordicos,Troll,Griegos,Centaur,10,5,5
+Nordicos,Troll,Griegos,Medusa,6,5,1
+Nordicos,Troll,Griegos,Classical Hero,6,9,-3
+Nordicos,Troll,Griegos,Heroic Hero,6,10,-4
+Nordicos,Troll,Griegos,Mythical Hero,6,11,-5
+Nordicos,Dwarf,Griegos,Hoplite,4,3,1
+Nordicos,Dwarf,Griegos,Hippokon,4,3,1
+Nordicos,Dwarf,Griegos,Toxotes,4,3,1
+Nordicos,Dwarf,Griegos,Hydra,11,6,5
+Nordicos,Dwarf,Griegos,Cyclops,11,6,5
+Nordicos,Dwarf,Griegos,Minotaur,4,5,-1
+Nordicos,Dwarf,Griegos,Manticore,4,9,-5
+Nordicos,Dwarf,Griegos,Centaur,4,5,-1
+Nordicos,Dwarf,Griegos,Medusa,4,5,-1
+Nordicos,Dwarf,Griegos,Classical Hero,4,9,-5
+Nordicos,Dwarf,Griegos,Heroic Hero,4,10,-6
+Nordicos,Dwarf,Griegos,Mythical Hero,4,9,-5
+Nordicos,Classical Hero,Griegos,Hoplite,5,3,2
+Nordicos,Classical Hero,Griegos,Hippokon,5,7,-2
+Nordicos,Classical Hero,Griegos,Toxotes,5,3,2
+Nordicos,Classical Hero,Griegos,Hydra,9,6,3
+Nordicos,Classical Hero,Griegos,Cyclops,9,6,3
+Nordicos,Classical Hero,Griegos,Minotaur,9,5,4
+Nordicos,Classical Hero,Griegos,Manticore,9,5,4
+Nordicos,Classical Hero,Griegos,Centaur,9,5,4
+Nordicos,Classical Hero,Griegos,Medusa,9,5,4
+Nordicos,Classical Hero,Griegos,Classical Hero,5,5,0
+Nordicos,Classical Hero,Griegos,Heroic Hero,5,6,-1
+Nordicos,Classical Hero,Griegos,Mythical Hero,5,10,-5
+Nordicos,Heroic Hero,Griegos,Hoplite,6,3,3
+Nordicos,Heroic Hero,Griegos,Hippokon,6,7,-1
+Nordicos,Heroic Hero,Griegos,Toxotes,6,3,3
+Nordicos,Heroic Hero,Griegos,Hydra,10,6,4
+Nordicos,Heroic Hero,Griegos,Cyclops,10,6,4
+Nordicos,Heroic Hero,Griegos,Minotaur,10,5,5
+Nordicos,Heroic Hero,Griegos,Manticore,10,5,5
+Nordicos,Heroic Hero,Griegos,Centaur,10,5,5
+Nordicos,Heroic Hero,Griegos,Medusa,10,5,5
+Nordicos,Heroic Hero,Griegos,Classical Hero,6,5,1
+Nordicos,Heroic Hero,Griegos,Heroic Hero,6,6,0
+Nordicos,Heroic Hero,Griegos,Mythical Hero,6,11,-5
+Nordicos,Mythic Hero,Griegos,Hoplite,8,3,5
+Nordicos,Mythic Hero,Griegos,Hippokon,8,7,1
+Nordicos,Mythic Hero,Griegos,Toxotes,8,3,5
+Nordicos,Mythic Hero,Griegos,Hydra,12,6,6
+Nordicos,Mythic Hero,Griegos,Cyclops,12,6,6
+Nordicos,Mythic Hero,Griegos,Minotaur,12,5,7
+Nordicos,Mythic Hero,Griegos,Manticore,12,5,7
+Nordicos,Mythic Hero,Griegos,Centaur,12,5,7
+Nordicos,Mythic Hero,Griegos,Medusa,12,5,7
+Nordicos,Mythic Hero,Griegos,Classical Hero,8,5,3
+Nordicos,Mythic Hero,Griegos,Heroic Hero,8,6,2
+Nordicos,Mythic Hero,Griegos,Mythical Hero,8,13,-5
